@@ -25,11 +25,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
 import Image from "next/image";
+import useSidebarStore from "../store/sidebarStore";
 
 const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme() || {};
+  const {toggleSidebar} = useSidebarStore()
 
   useEffect(() => {
     setMounted(true);
@@ -61,7 +63,7 @@ const Header = () => {
                   <div className="p-2">
                     <div className="flex items-center space-x-8 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md cursor-pointer">
                       <Avatar>
-                        <AvatarImage src="/Images/user-placeholder.png" />
+                        {/* <AvatarImage src="/Images/user-placeholder.jpg" /> */}
                         <AvatarFallback>T</AvatarFallback>
                       </Avatar>
                       <span>Nusrat Tazin</span>
@@ -89,7 +91,8 @@ const Header = () => {
           ))}
         </nav>
         <div className="flex space-x-2 md:space-x-4 items-center">
-          <Button variant="ghost" size="icon" className="text-gray-600 hover:text-blue-600 hover:bg-transparent">
+          <Button variant="ghost" size="icon" className="md:hidden text-gray-600 cursor-pointer"
+          onClick={toggleSidebar}>
             <Menu />
           </Button>
           <Button variant="ghost" size="icon" className="hidden md:block text-gray-600 pl-2">
@@ -102,7 +105,7 @@ const Header = () => {
   <DropdownMenuTrigger asChild>
     <Button variant="ghost" className="relative h-8 w-8 rounded-full">
       <Avatar>
-        <AvatarImage src="/Images/user-placeholder.png" />
+        {/* <AvatarImage src="/Images/user-placeholder.png" /> */}
         <AvatarFallback>T</AvatarFallback>
       </Avatar>
     </Button>
