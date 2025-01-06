@@ -1,32 +1,51 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import localFont from "next/font/local";
+import { ThemeProvider } from "next-themes";
 
-const geistSans = Geist({
+// Google Fonts (Optional if you're using local fonts)
+const googleGeistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
+const googleGeistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
 
+// Local Fonts
+const localGeistSans = localFont({
+  src: "./fonts/Geistvf/geist-variablefont_wght-webfont.woff2", // Adjust path as per your file structure
+  variable: "--font-geist-sans",
+});
+
+const localGeistMono = localFont({
+  src: "./fonts/Geistmonovf/geistmono-variablefont_wght-webfont.woff2", // Adjust path as per your file structure
+  variable: "--font-geist-mono",
+});
+
+// Metadata
 export const metadata = {
   title: "CUETbook",
-  description: "A CUET Community based social-media website",
+  description: "A CUET Community-based social media website",
 };
 
+// Root Layout
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${localGeistSans.variable} ${localGeistMono.variable} antialiased`}
       >
-        {children} 
-        {/* every page will get rendered here */}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light" // Ensure consistent default
+          enableSystem={false} // Disable system preference to test stability
+        >
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
 }
-// server side rendering 
-// next.js is server side rendering and react is client side
