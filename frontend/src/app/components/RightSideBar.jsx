@@ -5,6 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ExternalLink, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+
+
 const RightSideBar = () => {
     const [isClient, setIsClient] = useState(false);
     const [showAllSponsers, setShowAllSponsers] = useState(false);
@@ -17,39 +19,38 @@ const RightSideBar = () => {
 
     const sponsers = [
         {
-            name: "Netflix",
-            description: "Watch the latest trending movies and series.",
-            image:
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3qmBuBERRMhoFTvvNUWw7Kr9iicoxC4c8ZQ&s",
-            website: "https://www.netflix.com",
+            name: "Gadgetry BD",
+            description: "Your go-to destination for tech products and electronic gadgets.",
+            image:"/Images/gadget.jpg",
+            website: "https://www.facebook.com/gadgetrybd4u",
         },
         {
-            name: "Instagram",
-            description: "Explore the latest features and connect with friends.",
+            name: "Kaya",
+            description: "Unique handmade wooden jewelry and crafts crafted with love.",
             image:
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0NoNt4ECTrCIzRA6PhvyyPThBY9OUEW0-ng&s",
-            website: "https://www.instagram.com",
+                "/Images/kaya.jpg",
+            website: "https://www.facebook.com/profile.php?id=100089798335058",
         },
         {
-            name: "Spotify",
-            description: "Stream your favorite music anytime, anywhere.",
+            name: "Textum",
+            description: "Your ultimate shop for custom jerseys and trendy t-shirts.",
             image:
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShpvQJUXehm_yT1kr2WSATHaDRF88_JjWHcQ&s",
-            website: "https://www.spotify.com",
+                "/Images/textum.jpg",
+            website: "https://www.facebook.com/profile.php?id=61565061639069",
         },
         {
-            name: "Amazon",
-            description: "Shop for everything you need with fast delivery.",
+            name: "Sathi's Baking House",
+            description: "Delighting you with freshly baked treats and sweet creations.",
             image:
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaBLSbp3rFpIZ0kzoreJLN7uZqkJz0h6-RQQ&s",
-            website: "https://www.amazon.com",
+                "/Images/bake.jpg",
+            website: "https://www.facebook.com/groups/788645538147918/user/100089838461982",
         },
         {
-            name: "Apple",
-            description: "Discover innovative products and services.",
+            name: "Whimsy Craft",
+            description: "Exquisite handmade resin jewelry and enchanting trinkets.",
             image:
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0qsC4qgsmGTJ9HnNYatRyi7GyJ7GlRMujlw&s",
-            website: "https://www.apple.com",
+                "/Images/whimsy.jpg",
+            website: "https://www.facebook.com/profile.php?id=61555370361365",
         },
     ];
 
