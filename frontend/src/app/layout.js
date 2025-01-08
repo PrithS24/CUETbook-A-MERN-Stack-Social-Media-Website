@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import localFont from "next/font/local";
 import { ThemeProvider } from "next-themes";
+import Header from './components/Header'
 
 // Google Fonts (Optional if you're using local fonts)
 const googleGeistSans = Geist({
@@ -43,6 +44,7 @@ export default function RootLayout({ children }) {
           defaultTheme="light" // Ensure consistent default
           enableSystem={false} // Disable system preference to test stability
         >
+          <Header />
           {children}
         </ThemeProvider>
       </body>
