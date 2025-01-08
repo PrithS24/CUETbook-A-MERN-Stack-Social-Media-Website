@@ -26,13 +26,18 @@ import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
 import Image from "next/image";
 import useSidebarStore from "../store/sidebarStore";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme() || {};
   const {toggleSidebar} = useSidebarStore()
+  const router=useRouter()
 
+  const handleNavigation = (path,item)=>{
+    router.push(path)
+  }
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -84,7 +89,7 @@ const Header = () => {
               key={name}
               variant="ghost"
               size="icon"
-              className="relative text-gray-600 dark:text-gray-400 hover:text-blue-600 hover:bg-transparent"
+              className="relative text-gray-600 dark:text-gray-400 hover:text-blue-600 hover:bg-transparent" onClick={()=>handleNavigation(path)}
             >
               <Icon />
             </Button>

@@ -6,7 +6,19 @@ import VideoCard from './VideoCard'
 import Header from '../components/Header';
 const page =()=>{
     const videoPosts=[{
+       
+            mediaUrl:"",
+            mediaType:"video",
+           
+            comments:[{
+                user:{
+                    username:"Pritha",
+                    text:"this is a video",
+                    createdAt:"20-01-2025"
+                }
+            }]
 
+        
     }]
     return(
 
