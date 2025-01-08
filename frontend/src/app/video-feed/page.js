@@ -3,13 +3,19 @@ import LeftSideBar from '../components/LeftSideBar'
 import { Button } from '@/components/ui/button'
 import { ChevronLeft } from 'lucide-react'
 import VideoCard from './VideoCard'
-
+import Header from '../components/Header';
 const page =()=>{
     const videoPosts=[{
 
     }]
     return(
-        <div className='mt-12 min-h-screen'>
+
+        <div className='min-h-screen'>
+             <Header/>
+        
+        <div className='mt-12'>
+           
+
             <LeftSideBar/>
             <main className='ml-0 md:ml-64 p-6'>
                 <Button variant="ghost" className="mb-4">
@@ -23,6 +29,7 @@ const page =()=>{
                     ))}
                 </div>
             </main>
+        </div>
         </div>
     )
 }

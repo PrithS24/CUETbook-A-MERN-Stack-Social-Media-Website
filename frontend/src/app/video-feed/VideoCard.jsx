@@ -1,9 +1,20 @@
+'use client'
 import React from 'react'
-
-const VideoCard=()=>{
+import {motion} from 'framer-motion'
+const VideoCard=({post})=>{
     return(
         <div>
-           VideoCard 
+           <motion.div
+           key={post?._id}
+           initial={{ opacity: 0, y: 20 }}
+           animate={{ opacity: 1, y: 0 }}
+           transition={{ duration: 0.5 }}
+           className='bg-white dark:bg-[rgb(36,37,38)] rounded-lg shadow-lg overflow-hidden'
+           >
+            <div>
+                
+            </div>
+            </motion.div> 
         </div>
     )
 }
