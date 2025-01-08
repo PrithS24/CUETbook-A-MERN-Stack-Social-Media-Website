@@ -67,8 +67,8 @@ const PostCard = ({ post, isLiked, onShare, onComment, onLike }) => {
   <CardContent className="p-6 dark:text-white">
     <div className="flex items-center justify-between mb-4">
       <div className="flex items-center space-x-3 cursor-pointer">
-        <Avatar>
-          <AvatarImage src={post?.user.profilePicture} alt={post?.user.username} />
+       <Avatar>
+          <AvatarImage/>
           <AvatarFallback className="dark:bg-gray-400">
             {post?.user.username[0]} {/* Default to the first letter of the username if no profile image */}
           </AvatarFallback>
