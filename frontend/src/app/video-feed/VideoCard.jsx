@@ -12,7 +12,9 @@ const VideoCard=({post})=>{
            className='bg-white dark:bg-[rgb(36,37,38)] rounded-lg shadow-lg overflow-hidden'
            >
             <div>
-                
+                <div className='flex items-center justify-between mb-4 px-4 mt-2'>
+                    
+                </div>
             </div>
             </motion.div> 
         </div>

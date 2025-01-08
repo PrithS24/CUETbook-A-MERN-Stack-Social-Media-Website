@@ -13,7 +13,7 @@ const page =()=>{
         <div className='min-h-screen'>
              <Header/>
         
-        <div className='mt-12'>
+        <div className='mt-20'>
            
 
             <LeftSideBar/>
