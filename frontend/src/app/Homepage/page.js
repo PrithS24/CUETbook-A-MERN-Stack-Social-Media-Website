@@ -128,7 +128,7 @@ const HomePage = () => {
       <main className="flex flex-1 pt-16">
         <LeftSideBar/>
         <div className="flex-1 px-4 py-6 lg:max-w-2xl xl:max-w-3xl mx-auto">
-          <div className="lg:ml-2 xl:ml-28">
+          <div className="lg:ml-2 xl:ml-4">
             <StorySection />
                <NewPostForm 
             isPostFormOpen={isPostFormOpen}

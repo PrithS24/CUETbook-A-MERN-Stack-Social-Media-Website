@@ -36,10 +36,11 @@ const page =()=>{
 
                 </Button>
                 <div className='max-w-3xl mx-auto'>
-                    {videoPosts.map((post)=>(
-                        <VideoCard post={post}/>
-                    ))}
-                </div>
+    {videoPosts.map((post) => (
+        <VideoCard key={post.id} post={post} />
+    ))}
+</div>
+
             </main>
         </div>
         </div>

@@ -12,7 +12,7 @@ const LeftSideBar = () => {
         router.push(path);
       };
     return (
-        <aside className='fixed top-16 left-0 h-full w-64 p-4 transform transition-transform duration-1200 ease-in-out md:translate-x-0 flex flex-col z-50 md:z-0'>
+        <aside className=' fixed top-16 left-0 h-full w-64 p-4 transform transition-transform duration-1200 ease-in-out md:translate-x-0 flex flex-col z-50 md:z-0'>
             <div className='flex flex-col h-full overflow-y-auto'>
                 {/* navigation menu starts here */}
                 <nav className='space-y-4 flex-grow'>

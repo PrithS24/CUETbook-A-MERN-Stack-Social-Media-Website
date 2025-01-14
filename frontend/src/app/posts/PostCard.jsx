@@ -164,7 +164,7 @@ const PostCard = ({ post, isLiked, onShare, onComment, onLike }) => {
                 <Button
                   variant="ghost"
                   className="flex-1 dark:hover:bg-gray-500">
-               <Share2 className="mr-2 h-4 w-4"/>
+               <Share2 className="mr-2 h-4 w-4"/>Shares
                 </Button>
               </DialogTrigger>
               <DialogContent>
