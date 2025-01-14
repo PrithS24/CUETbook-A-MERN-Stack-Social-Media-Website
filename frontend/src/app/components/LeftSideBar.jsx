@@ -7,6 +7,7 @@ import { Separator } from '@/components/ui/separator';
 import { useRouter } from 'next/navigation';
 
 const LeftSideBar = () => {
+    //  tried to merge
     const router=useRouter();
     const handleNavigation = (path,item)=>{
         router.push(path);
