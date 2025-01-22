@@ -64,7 +64,7 @@ const PostCard = ({ post, isLiked, onShare, onComment, onLike }) => {
       transition={{ duration: 0.5 }}
     >
       <Card>
-  <CardContent className="p-6 dark:text-white">
+  <CardContent className={`p-6 dark:text-white ${post?.jobPost ? 'bg-yellow-100 rounded-lg dark:bg-yellow-900' : ''}`}>
     <div className="flex items-center justify-between mb-4">
       <div className="flex items-center space-x-3 cursor-pointer">
        <Avatar>
@@ -141,7 +141,7 @@ const PostCard = ({ post, isLiked, onShare, onComment, onLike }) => {
       </div>
     </div>
 
-          <Separator className="mb-2 dark:bg-gray-400" />
+          <Separator className={`mb-2 dark:bg-gray-400 ${post?.jobPost ? 'bg-gray-500' : ''}`} />
           <div className="flex justify-between mb-2">
             <Button
               variant="ghost"
@@ -189,7 +189,7 @@ const PostCard = ({ post, isLiked, onShare, onComment, onLike }) => {
               </DialogContent>
             </Dialog>
           </div>
-          <Separator className="mb-2 dark:bg-gray-400" />
+          <Separator className={`mb-2 dark:bg-gray-400 ${post?.jobPost ? 'bg-gray-500' : ''}`} />
           <AnimatePresence>
             {showComments && (
               <motion.div

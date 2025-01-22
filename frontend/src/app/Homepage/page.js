@@ -15,6 +15,7 @@ const HomePage = () => {
       content: "Petals of perfection 🌸",
       mediaUrl: "https://images.pexels.com/photos/25820097/pexels-photo-25820097/free-photo-of-colorful-flowers-at-florists.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       mediaType: "image",
+      jobPost: 0,
       user: {
         username: "Rashme Akther",
         profilePicture: "https://example.com/profile1.jpg"
@@ -35,6 +36,7 @@ const HomePage = () => {
       content: "🌅🌇🌙",
       mediaUrl: "https://cdn.pixabay.com/video/2022/03/18/111204-689949818_tiny.mp4",
       mediaType: "video",
+      jobPost: 0,
       user: {
         username: "Pritha Saha",
         profilePicture: "https://example.com/profile5.jpg"
@@ -57,6 +59,7 @@ const HomePage = () => {
       content: "The stars are out to play tonight 🌠",
       mediaUrl: "https://images.pexels.com/photos/355465/pexels-photo-355465.jpeg?auto=compress&cs=tinysrgb&w=600",
       mediaType: "image",
+      jobPost: 0,
       user: {
         username: "Walisa Alam",
         profilePicture: "https://example.com/profile2.jpg"
@@ -80,6 +83,7 @@ const HomePage = () => {
       content: "Happiness is homemade 🎂",
       mediaUrl: "https://images.pexels.com/photos/1639564/pexels-photo-1639564.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       mediaType: "image",
+      jobPost: 0,
       user: {
         username: "Nusrat Tazin",
         profilePicture: "https://example.com/profile3.jpg"
@@ -107,6 +111,27 @@ const HomePage = () => {
       content: "Amazing travel moments ✈️",
       mediaUrl: "https://media.istockphoto.com/id/1753779792/video/aerial-drone-shot-of-morning-mist-over-tranquil-farmland-with-single-big-tree-under-orange.mp4?s=mp4-640x640-is&k=20&c=Vnku2vtoVM61shIsqaYyXX2s-slAC39mWZ4Vzz4dOaM=",
       mediaType: "video",
+      jobPost: 0,
+      user: {
+        username: "Nazifa",
+        profilePicture: "https://example.com/profile4.jpg"
+      },
+      createdAt: "2024-09-20T09:15:00Z",
+      comments: [
+        {
+          text: "Nice video",
+          userName: "Muntaha Alam",
+        }
+      ],
+      likes: 1,
+      shares:9,
+    },
+    {
+      _id: 6,
+      content: "Amazing travel moments ✈️",
+      mediaUrl: "https://media.istockphoto.com/id/1753779792/video/aerial-drone-shot-of-morning-mist-over-tranquil-farmland-with-single-big-tree-under-orange.mp4?s=mp4-640x640-is&k=20&c=Vnku2vtoVM61shIsqaYyXX2s-slAC39mWZ4Vzz4dOaM=",
+      mediaType: "video",
+      jobPost: 1,
       user: {
         username: "Nazifa",
         profilePicture: "https://example.com/profile4.jpg"
@@ -131,14 +156,14 @@ const HomePage = () => {
           <div className="lg:ml-2 xl:ml-4">
             <StorySection />
                <NewPostForm 
-            isPostFormOpen={isPostFormOpen}
-            setIsPostFormOpen={setIsPostFormOpen}
-            />
-            <div className="mt-6 space-y-6 mb-4">
-              {posts.map((post) => (
-                <PostCard key={post._id}
-                post={post}
-                 />
+                isPostFormOpen={isPostFormOpen}
+                setIsPostFormOpen={setIsPostFormOpen}
+                />
+                <div className="mt-6 space-y-6 mb-4">
+                  {posts.map((post) => (
+                    <PostCard key={post._id}
+                    post={post}
+                    />
               ))}
             </div>
           </div>

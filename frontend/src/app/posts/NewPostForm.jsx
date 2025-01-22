@@ -16,6 +16,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { AnimatePresence } from "framer-motion";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
+import { Checkbox } from "@/components/ui/checkbox"
 
 const Picker = dynamic(() => import("emoji-picker-react"), { ssr: false });
 
@@ -36,6 +37,7 @@ const NewPostForm = ({ isPostFormOpen, setIsPostFormOpen }) => {
     setPostContent((prev) => prev + emojiObject.emoji);
   };
 
+  const [isCheckBoxChecked, setIsCheckBoxChecked] = useState(0)
 
   return (
     <Card>
@@ -174,6 +176,18 @@ const NewPostForm = ({ isPostFormOpen, setIsPostFormOpen }) => {
                  <Picker onEmojiClick={handleEmojiClick}/>
                 </motion.div>
               )}
+              <div className="flex items-center space-x-2">
+                <Checkbox id='terms1"'
+                  // checked={field.value}
+                  // onCheckedChange={field.onChange}
+                />
+                <label
+                  htmlFor="terms1"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  Post as Job Post
+                </label>
+              </div>
               <div className="flex justify-end mt-4">
                 <Button className="bg-blue-500 text-white" >
                     post
