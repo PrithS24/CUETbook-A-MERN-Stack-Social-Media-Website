@@ -5,6 +5,8 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: null },
   gender:{type:String, default:null},
+  studentID: { type: String, required: true, unique: true },
+  department: { type: String, required: true },
   userType: { type: String, enum: ["student", "alumni"], required: true }, // Differentiates user type
   batch: { type: String, required: function() { return this.userType === "alumni"; } }, // Alumni-specific
   graduationYear: { type: Number, required: function() { return this.userType === "alumni"; } }, // Alumni-specific
