@@ -50,7 +50,7 @@ const Header = () => {
       <div className="mx-auto flex justify-between items-center p-2">
         <div className="flex items-center gap-2 md:gap-4">
           <Image
-            src="/Images/4 new.png"
+            src="/Images/c.png"
             width={40}
             height={27}
             alt="cuetbook-logo"
