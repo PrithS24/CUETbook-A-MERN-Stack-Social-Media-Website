@@ -10,13 +10,13 @@ const LeftSideBar = ({ handleNavigation }) => {
     const router = useRouter();
 
     return (
-        <aside className="fixed top-16 left-0 h-full w-64 p-4 transform transition-transform duration-1200 ease-in-out md:translate-x-0 flex flex-col z-50 md:z-0">
-            <div className="flex flex-col h-full overflow-y-auto">
-                {/* Navigation menu starts here */}
-                <nav className="space-y-4 flex-grow">
-                    <div className="flex items-center space-x-2 cursor-pointer">
-                        <Avatar className="h-10 w-10">
-                            <AvatarImage />
+        <aside className=' fixed top-16 left-0 h-full w-64 p-4 transform transition-transform duration-1200 ease-in-out md:translate-x-0 flex flex-col z-50 md:z-0'>
+            <div className='flex flex-col h-full overflow-y-auto'>
+                {/* navigation menu starts here */}
+                <nav className='space-y-4 flex-grow'>
+                    <div className='flex items-center space-x-2 cursor-pointer'>
+                        <Avatar className='h-10 w-10'>
+                           <AvatarImage/>
                             <AvatarFallback>W</AvatarFallback>
                         </Avatar>
                         <span className="font-semibold">Username</span>
@@ -69,13 +69,13 @@ const LeftSideBar = ({ handleNavigation }) => {
                         <Bell className="mr-4" /> Notifications
                     </Button>
                 </nav>
-
-                {/* Footer section */}
-                <div className="mb-16 bottom-0">
-                    <Separator className="my-4" />
-                    <div className="flex items-center space-x-2 mb-4 cursor-pointer">
-                        <Avatar className="h-10 w-10">
-                            <AvatarImage />
+                
+                {/* footer section  */}
+                <div className='mb-16 bottom-0'>
+                    <Separator className='my-4'/>
+                    <div className='flex items-center space-x-2 mb-4 cursor-pointer'>
+                        <Avatar className='h-10 w-10'>
+                           <AvatarImage/>
                             <AvatarFallback>W</AvatarFallback>
                         </Avatar>
                         <span className="font-semibold">Username</span>

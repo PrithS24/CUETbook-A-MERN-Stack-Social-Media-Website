@@ -20,7 +20,7 @@ const StoryCard = ({ isAddStory, story, userName, avatarLetter }) => {
             <div className="h-3/4 w-full relative border-b">
               <Avatar className="w-full h-full">
                 <AvatarImage />
-                <p className="w-full h-full flex justify-center items-center text-4xl">
+                <p className="w-full h-full flex justify-center items-center text-4xl dark:text-white">
                   T
                 </p>
               </Avatar>
@@ -60,7 +60,7 @@ const StoryCard = ({ isAddStory, story, userName, avatarLetter }) => {
             <div className="absolute top-2 left-2 rounded-full ring-2 ring-blue-500 flex items-center justify-center w-10 h-10">
               <Avatar className="w-full h-full">
                 <AvatarImage />
-                <p className="w-full h-full flex justify-center items-center text-4xl">
+                <p className="w-full h-full flex justify-center items-center text-4xl text-gray-100">
                   {avatarLetter}
                 </p>
               </Avatar>
