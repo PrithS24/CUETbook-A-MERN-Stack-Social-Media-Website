@@ -9,6 +9,7 @@ import NewPostForm from "../posts/NewPostForm";
 import PostCard from "../posts/PostCard";
 const HomePage = () => {
   const [isPostFormOpen, setIsPostFormOpen] = useState(false);
+  const [view, setView] = useState("home");
   const posts = [
     {
       _id: 1,
@@ -148,32 +149,40 @@ const HomePage = () => {
     },
     
   ];
-  return (
-    <div className="flex flex-col min-h-screen bg-background text-foreground">
+  const filteredPosts = posts.filter((post) =>
+    view === "job-posts" ? post.jobPost === 1 : post.jobPost === 0
+);
+
+const handleNavigation = (view) => {
+    setView(view);
+};
+return (
+  <div className="flex flex-col min-h-screen bg-background text-foreground">
       <main className="flex flex-1 pt-16">
-        <LeftSideBar/>
-        <div className="flex-1 px-4 py-6 lg:max-w-2xl xl:max-w-3xl mx-auto">
-          <div className="lg:ml-2 xl:ml-4">
-            <StorySection />
-               <NewPostForm 
-                isPostFormOpen={isPostFormOpen}
-                setIsPostFormOpen={setIsPostFormOpen}
-                />
-                <div className="mt-6 space-y-6 mb-4">
-                  {posts.map((post) => (
-                    <PostCard key={post._id}
-                    post={post}
-                    />
-              ))}
-            </div>
+          <LeftSideBar handleNavigation={handleNavigation} />
+          <div className="flex-1 px-4 py-6 lg:max-w-2xl xl:max-w-3xl mx-auto">
+              <div className="lg:ml-2 xl:ml-4">
+                  {/* <h1 className="text-xl font-bold mb-4">
+                      {view === "home" ? "Home Posts" : "Job Posts"}
+                  </h1> */}
+                  <StorySection />
+                  <NewPostForm
+                      isPostFormOpen={isPostFormOpen}
+                      setIsPostFormOpen={setIsPostFormOpen}
+                  />
+                  <div className="mt-6 space-y-6 mb-4">
+                      {filteredPosts.map((post) => (
+                          <PostCard key={post._id} post={post} />
+                      ))}
+                  </div>
+              </div>
           </div>
-        </div>
-        <div className="hidden lg:block lg:w-64 xl:w-80 fixed right-0 top-16 bottom-0 overflow-y-auto p-4">
-          <RightSideBar />
-        </div>
+          <div className="hidden lg:block lg:w-64 xl:w-80 fixed right-0 top-16 bottom-0 overflow-y-auto p-4">
+              <RightSideBar />
+          </div>
       </main>
-    </div>
-  );
+  </div>
+);
 };
 
 export default HomePage;

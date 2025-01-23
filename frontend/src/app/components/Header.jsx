@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import { Input } from "@/components/ui/input";
 //rashme
 import {
@@ -31,17 +31,83 @@ import { useRouter } from "next/navigation";
 
 const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery,setSearchQuery]=useState("");
+  const [userList,setUserList]=useState([]);
+  const [filterUsers,setFilterUsers]=useState([]);
+  const [activeTab,setACtiveTab]= useState("home");
+  const searchRef=useRef(null)
+
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme() || {};
   const {toggleSidebar} = useSidebarStore()
   const router=useRouter()
 
-  const handleNavigation = (path,item)=>{
-    router.push(path)
-  }
+  const handleNavigation = (path) => {
+    router.push(path);
+  };
+
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        setLoading(true);
+        const result = await getAllUsers(); // Assume `getAllUsers` fetches users
+        setUserList(result);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUsers();
+  }, []); // Correct order: Only fetch once on mount
+
+  useEffect(() => {
+    if (searchQuery) {
+      const filteredUsers = userList.filter((user) =>
+        user.username.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilterUsers(filteredUsers);
+      setIsSearchOpen(true);
+    } else {
+      setFilterUsers([]);
+      setIsSearchOpen(false);
+    }
+  }, [searchQuery, userList]);
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    setIsSearchOpen(false);
+  };
+
+  const handleUserClick = async (userId) => {
+    try {
+      setLoading(true);
+      setIsSearchOpen(false);
+      setSearchQuery("");
+      await router.push(`user-profile/${userId}`);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSearchClose = (e) => {
+    if (!searchRef.current?.contains(e.target)) {
+      setIsSearchOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleSearchClose);
+    return () => {
+      document.removeEventListener("click", handleSearchClose);
+    };
+  }, []); // Fixed to ensure consistent order of hooks
 
   if (!mounted) return null;
 
@@ -50,31 +116,45 @@ const Header = () => {
       <div className="mx-auto flex justify-between items-center p-2">
         <div className="flex items-center gap-2 md:gap-4">
           <Image
-            src="/Images/c.png"
-            width={40}
-            height={27}
+            src="/Images/Clogo.png"
+            width={60}
+            height={60}
             alt="cuetbook-logo"
           />
-          <div className="relative">
-            <form>
+          <div className="relative" ref={searchRef}>
+            <form onSubmit={handleSearchSubmit}>
               <div className="relative">
                 <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
                 <Input
                   className="pl-8 w-40 md:w-64 h-10 bg-gray-100 dark:bg-[rgb(58,59,60)] rounded-full"
                   placeholder="Search"
+                  value={searchQuery}
+                  onChange={(e)=> setSearchQuery(e.target.value) }
+                  onFocus={()=>setIsSearchOpen(true)}
                 />
               </div>
               {isSearchOpen && (
                 <div className="absolute top-full left-0 w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg mt-1 z-50">
                   <div className="p-2">
-                    <div className="flex items-center space-x-8 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md cursor-pointer">
-                      <Avatar>
-                        {/* <AvatarImage src="/Images/user-placeholder.jpg" /> */}
-                        <AvatarFallback>T</AvatarFallback>
-                      </Avatar>
-                      <span>Nusrat Tazin</span>
-                    </div>
-                  </div>
+                    {filterUsers.length>0?(
+                      filterUsers.map((user)=>(<div className="flex items-center space-x-8 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md cursor-pointer"
+                        key={user.id}
+                        onClick={()=>handleUserClick(user?._id)}
+                      >
+                        <Avatar>
+                          {/* <AvatarImage src="/Images/user-placeholder.jpg" /> */}
+                          <AvatarFallback>T</AvatarFallback>
+                        </Avatar>
+                        <span>Nusrat Tazin</span>
+                      </div>))
+                       
+                  
+                    ):(
+                      <>
+                      <div className="p-2 text-gray-500">No User Found</div>
+                      </>
+                    )}
+                    </div> 
                 </div>
               )}
             </form>
