@@ -22,7 +22,7 @@ const LeftSideBar = () => {
                            <AvatarImage/>
                             <AvatarFallback>T</AvatarFallback>
                         </Avatar>
-                        <span className='font-semibold'>Username</span>
+                        <span className='font-semibold'>Nusrat Tazin</span>
                     </div>
                     
                     <Button
@@ -74,7 +74,7 @@ const LeftSideBar = () => {
                            <AvatarImage/>
                             <AvatarFallback>T</AvatarFallback>
                         </Avatar>
-                        <span className='font-semibold'>Username</span>
+                        <span className='font-semibold'>Nusrat Tazin</span>
                     </div>
                     
                 </div>
