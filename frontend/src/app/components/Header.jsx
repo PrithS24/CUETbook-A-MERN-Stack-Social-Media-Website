@@ -112,7 +112,7 @@ const Header = () => {
   if (!mounted) return null;
 
   return (
-    <header className="bg-white dark:bg-[rgb(36,37,38)] text-foreground shadow-md h-16 fixed top-0 left-0 right-0 z-50 p-2">
+    <header className="bg-white dark:bg-[rgb(36,37,38)] text-foreground shadow-md h-20 fixed top-0 left-0 right-0 z-50 p-2">
       <div className="mx-auto flex justify-between items-center p-2">
         <div className="flex items-center gap-2 md:gap-4">
           <Image
