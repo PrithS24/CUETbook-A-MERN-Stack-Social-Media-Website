@@ -64,7 +64,7 @@ const PostCard = ({ post, isLiked, onShare, onComment, onLike }) => {
       transition={{ duration: 0.5 }}
     >
       <Card>
-  <CardContent className={`p-6 dark:text-white ${post?.jobPost ? 'bg-yellow-100 rounded-lg dark:bg-yellow-900' : ''}`}>
+  <CardContent className={`p-6 dark:text-white ${post?.jobPost ? 'bg-blue-100 rounded-lg' : ''}`}>
     <div className="flex items-center justify-between mb-4">
       <div className="flex items-center space-x-3 cursor-pointer">
        <Avatar>
@@ -74,7 +74,7 @@ const PostCard = ({ post, isLiked, onShare, onComment, onLike }) => {
           </AvatarFallback>
         </Avatar>
         <div>
-          <p className="font-semibold dark:text-white">{post?.user.username}</p> {/* Access username from user object */}
+          <p className={`font-semibold dark:text-white ${post?.jobPost? 'dark:text-gray-700':''}`}>{post?.user.username}</p> {/* Access username from user object */}
           <p className="font-sm text-gray-500">{new Date(post?.createdAt).toLocaleString()}</p> {/* Format timestamp */}
         </div>
         </div>
@@ -104,13 +104,13 @@ const PostCard = ({ post, isLiked, onShare, onComment, onLike }) => {
       
     </div>
 
-    <p className="mb-4">{post?.content}</p>
+    <p className={`mb-4 ${post?.jobPost ? 'text-blue-500 font-semibold' : ''}`}>{post?.content}</p>
 
     {post?.mediaUrl && post?.mediaType === "image" && (
       <img
         src={post?.mediaUrl}
         alt="post_image"
-        className="w-full max-h-[500px] object-cover rounded-lg mb-4"
+        className="w-full h-full object-cover rounded-lg mb-4"
         loading="lazy"
       />
     )}
@@ -141,18 +141,18 @@ const PostCard = ({ post, isLiked, onShare, onComment, onLike }) => {
       </div>
     </div>
 
-          <Separator className={`mb-2 dark:bg-gray-400 ${post?.jobPost ? 'bg-gray-500' : ''}`} />
+          <Separator className="mb-2 dark:bg-gray-400 " />
           <div className="flex justify-between mb-2">
             <Button
               variant="ghost"
-              className={`flex-1 dark:hover:bg-gray-600 `}
+              className={`flex-1 dark:hover:bg-gray-700  ${post?.jobPost? 'dark:text-gray-800 dark:hover:bg-white':''}`}
               
             >
               <ThumbsUp className="mr-2 h-4 w-4" /> Like
             </Button>
             <Button
               variant="ghost"
-              className={`flex-1 dark:hover:bg-gray-600 `}
+              className={`flex-1 dark:hover:bg-gray-700 ${post?.jobPost? 'dark:text-gray-800 dark:hover:bg-white':''}`}
               >
               <MessageCircle className="mr-2 h-4 w-4" /> Comment
             </Button>
@@ -163,7 +163,7 @@ const PostCard = ({ post, isLiked, onShare, onComment, onLike }) => {
                <DialogTrigger asChild>
                 <Button
                   variant="ghost"
-                  className="flex-1 dark:hover:bg-gray-500">
+                  className={`flex-1 dark:hover:bg-gray-700 ${post?.jobPost? 'dark:text-gray-800 dark:hover:bg-white':''}`}>
                <Share2 className="mr-2 h-4 w-4"/>Shares
                 </Button>
               </DialogTrigger>
@@ -189,7 +189,7 @@ const PostCard = ({ post, isLiked, onShare, onComment, onLike }) => {
               </DialogContent>
             </Dialog>
           </div>
-          <Separator className={`mb-2 dark:bg-gray-400 ${post?.jobPost ? 'bg-gray-500' : ''}`} />
+          <Separator className="mb-2 dark:bg-gray-400" />
           <AnimatePresence>
             {showComments && (
               <motion.div

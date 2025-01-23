@@ -20,7 +20,7 @@ const LeftSideBar = () => {
                     <div className='flex items-center space-x-2 cursor-pointer'>
                         <Avatar className='h-10 w-10'>
                            <AvatarImage/>
-                            <AvatarFallback>W</AvatarFallback>
+                            <AvatarFallback>T</AvatarFallback>
                         </Avatar>
                         <span className='font-semibold'>Username</span>
                     </div>
@@ -72,7 +72,7 @@ const LeftSideBar = () => {
                     <div className='flex items-center space-x-2 mb-4 cursor-pointer'>
                         <Avatar className='h-10 w-10'>
                            <AvatarImage/>
-                            <AvatarFallback>W</AvatarFallback>
+                            <AvatarFallback>T</AvatarFallback>
                         </Avatar>
                         <span className='font-semibold'>Username</span>
                     </div>

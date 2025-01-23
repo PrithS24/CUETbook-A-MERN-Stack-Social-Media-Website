@@ -128,9 +128,9 @@ const HomePage = () => {
     },
     {
       _id: 6,
-      content: "Amazing travel moments ✈️",
-      mediaUrl: "https://media.istockphoto.com/id/1753779792/video/aerial-drone-shot-of-morning-mist-over-tranquil-farmland-with-single-big-tree-under-orange.mp4?s=mp4-640x640-is&k=20&c=Vnku2vtoVM61shIsqaYyXX2s-slAC39mWZ4Vzz4dOaM=",
-      mediaType: "video",
+      content: "JOB POST #job #vacancy #Bangladesh #CareerGrowth #Accountant #requirements",
+      mediaUrl: "https://media.licdn.com/dms/image/v2/D5622AQHXWT1pXUGoew/feedshare-shrink_800/B56ZSIKSyjH0Ak-/0/1737451189056?e=1740614400&v=beta&t=j0b4FlWTuU_i0yNMe8N2dJCgNpQMalXOxs_G16cK2P4",
+      mediaType: "image",
       jobPost: 1,
       user: {
         username: "Nazifa",
@@ -139,7 +139,7 @@ const HomePage = () => {
       createdAt: "2024-09-20T09:15:00Z",
       comments: [
         {
-          text: "Nice video",
+          text: "I am interested",
           userName: "Muntaha Alam",
         }
       ],
