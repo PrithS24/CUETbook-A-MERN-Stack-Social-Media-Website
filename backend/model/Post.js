@@ -16,7 +16,11 @@ const postSchema=new mongoose.Schema({
     likeCount:{type:Number, default:0},
     commentCount:{type:Number, default:0},
     share:[{type:mongoose.Schema.Types.ObjectId, ref:'User'}],
-    shareCount:{type:Number,default:0}
+    shareCount:{type:Number,default:0},
+    isJobPost: { 
+        type: Boolean, 
+        default: false // Default to regular post
+    }
 },{timestamps:true})
 
 const Post=mongoose.model('Post',userSchema)
