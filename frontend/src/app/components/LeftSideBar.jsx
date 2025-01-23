@@ -53,6 +53,7 @@ const LeftSideBar = ({ handleNavigation }) => {
                     <Button
                         variant="ghost"
                         className="w-full justify-start"
+                        onClick={() => router.push("/user-profile")}
                     >
                         <User className="mr-4" /> Profile
                     </Button>
