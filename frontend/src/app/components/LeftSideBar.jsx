@@ -19,7 +19,7 @@ const LeftSideBar = ({ handleNavigation }) => {
                             <AvatarImage />
                             <AvatarFallback>W</AvatarFallback>
                         </Avatar>
-                        <span className="font-semibold">Nusrat Tazin</span>
+                        <span className="font-semibold">Walisa</span>
                     </div>
 
                     <Button
@@ -70,7 +70,7 @@ const LeftSideBar = ({ handleNavigation }) => {
                             <AvatarImage />
                             <AvatarFallback>W</AvatarFallback>
                         </Avatar>
-                        <span className="font-semibold">Nusrat Tazin</span>
+                        <span className="font-semibold">Walisa</span>
                     </div>
                 </div>
             </div>

@@ -89,7 +89,7 @@ const NewPostForm = ({ isPostFormOpen, setIsPostFormOpen }) => {
               <div className="flex items-center space-x-3 py-4">
                 <Avatar className="h-10 w-10">
                     <AvatarImage/>
-                    <AvatarFallback className="dark:bg-gray-400">Rashme</AvatarFallback>
+                    <AvatarFallback className="dark:bg-gray-400">R</AvatarFallback>
                 </Avatar>
                 <div>
                   <p className="font-semibold">Rashme</p>

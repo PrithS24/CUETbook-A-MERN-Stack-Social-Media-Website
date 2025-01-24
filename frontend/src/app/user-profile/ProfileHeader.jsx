@@ -33,7 +33,7 @@ const ProfileHeader = ({
   const coverImageInputRef = useRef(null);
 
   // Mock data structure for profileData
-  const role = profileData?.role || "Student"; // "Student" or "Alumni"
+  const userType = profileData?.userType || "Student"; // "Student" or "Alumni"
   const department = profileData?.department || "Department of CSE";
   const studentID = profileData?.studentID || "2004016";
   const batch = profileData?.batch || "Batch 2021";
@@ -42,11 +42,7 @@ const ProfileHeader = ({
   return (
     <div className="relative">
       <div className="relative h-64 md:h-80 bg-gray-300 overflow-hidden">
-        <a
-          href="https://your-link-here.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a href="https://your-link-here.com" target="_blank" rel="noopener noreferrer">
           <img
             src="https://images.pexels.com/photos/2850287/pexels-photo-2850287.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
             alt="cover"
@@ -68,25 +64,18 @@ const ProfileHeader = ({
       {/* Profile section */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 relative z-10">
         <div className="flex flex-col md:flex-row items-center md:items-end md:space-x-5">
-          {/* <Avatar className="w-32 h-32 border-4 border-white dark:border-gray-700 bg-red-500">
+          <Avatar className="w-32 h-32 border-4 border-white dark:border-gray-700">
             <AvatarImage />
-            <AvatarFallback className="dark:bg-gray-400 font-semibold text-3xl h-16 w-16 flex items-center justify-center">R</AvatarFallback>
-          </Avatar> */}
-          <Avatar className="w-32 h-32 border-4 border-white dark:border-gray-700 flex items-center justify-center">
-            <AvatarImage />
-            <AvatarFallback className="dark:bg-gray-400 font-semibold text-5xl flex items-center justify-center">
-              R
-            </AvatarFallback>
+            <AvatarFallback className="dark:bg-gray-400">R</AvatarFallback>
           </Avatar>
-
           <div className="mt-4 md:mt-0 text-center md:text-left flex-grow">
             <h1 className="text-3xl font-bold">Rashme Akther</h1>
             {/* New Role, Department, ID, Batch, Graduation Year Display */}
             <div className="text-gray-500 font-medium mt-10">
-              <p>{role}</p>
+              <p>{userType}</p>
               <p>{department}</p>
               <p>ID: {studentID}</p>
-              {role === "Alumni" && (
+              {userType === "Alumni" && (
                 <>
                   <p>Batch: {batch}</p>
                   <p>Graduation Year: {graduationYear}</p>
@@ -139,9 +128,7 @@ const ProfileHeader = ({
                 <div className="flex flex-col items-center mb-4">
                   <Avatar className="w-24 h-24 border-4 border-white dark:border-gray-700 mb-2">
                     <AvatarImage />
-                    <AvatarFallback className="dark:bg-gray-400">
-                      R
-                    </AvatarFallback>
+                    <AvatarFallback className="dark:bg-gray-400">R</AvatarFallback>
                   </Avatar>
                   <input type="file" accept="image/*" className="hidden" />
                   <Button type="button" variant="outline" size="sm">

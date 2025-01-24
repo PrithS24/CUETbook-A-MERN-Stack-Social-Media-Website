@@ -149,10 +149,13 @@ const HomePage = () => {
     },
     
   ];
-  const filteredPosts = posts.filter((post) =>
-    view === "job-posts" ? post.jobPost === 1 : post.jobPost === 0
-);
-
+//   const filteredPosts = posts.filter((post) =>
+//     view === "job-posts" ? post.jobPost === 1 : post.jobPost === 0
+// );
+const filteredPosts =
+    view === "job-posts"
+      ? posts.filter((post) => post.jobPost === 1) // Only job posts
+      : posts;
 const handleNavigation = (view) => {
     setView(view);
 };
