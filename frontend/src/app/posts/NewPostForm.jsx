@@ -45,14 +45,14 @@ const NewPostForm = ({ isPostFormOpen, setIsPostFormOpen }) => {
         <div className="flex space-x-4">
           <Avatar>
               <AvatarImage/>
-              <AvatarFallback className="dark:bg-gray-400">R
+              <AvatarFallback className="dark:bg-gray-400">T
               </AvatarFallback>
           </Avatar>
 
           <Dialog open={isPostFormOpen} onOpenChange={setIsPostFormOpen}>
             <DialogTrigger className="w-full">
               <Input
-                placeholder={`what's on your mind,Rashme`}
+                placeholder={`what's on your mind, Nusrat Tazin?`}
                 readOnly
                 className="cursor-pointer rounded-full h-12  dark:bg-[rgb(58,59,60)] placeholder:text-gray-500 dark:placeholder:text-gray-400  "
               />
@@ -89,10 +89,10 @@ const NewPostForm = ({ isPostFormOpen, setIsPostFormOpen }) => {
               <div className="flex items-center space-x-3 py-4">
                 <Avatar className="h-10 w-10">
                     <AvatarImage/>
-                    <AvatarFallback className="dark:bg-gray-400">R</AvatarFallback>
+                    <AvatarFallback className="dark:bg-gray-400">Rashme</AvatarFallback>
                 </Avatar>
                 <div>
-                  <p className="font-semibold">Rashme</p>
+                  <p className="font-semibold">Nusrat Tazin</p>
                 </div>
               </div>
               <Textarea
