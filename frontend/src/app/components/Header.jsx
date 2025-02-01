@@ -66,17 +66,22 @@ const Header = () => {
   }, []); // Correct order: Only fetch once on mount
 
   useEffect(() => {
-    if (searchQuery) {
-      const filteredUsers = userList.filter((user) =>
-        user.username.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-      setFilterUsers(filteredUsers);
-      setIsSearchOpen(true);
-    } else {
-      setFilterUsers([]);
-      setIsSearchOpen(false);
-    }
+    const keywords = searchQuery.toLowerCase().split(" ");
+  
+    const filteredUsers = userList.filter((user) =>
+      keywords.every((keyword) =>
+        user.username.toLowerCase().includes(keyword) ||
+        user.department?.toLowerCase().includes(keyword) ||
+        user.studentID?.toLowerCase().includes(keyword) ||
+        user.userType?.toLowerCase().includes(keyword) ||
+        user.batch?.toLowerCase().includes(keyword)
+      )
+    );
+  
+    setFilterUsers(filteredUsers);
+    setIsSearchOpen(keywords.length > 0);
   }, [searchQuery, userList]);
+  
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();

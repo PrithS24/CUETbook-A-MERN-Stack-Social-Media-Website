@@ -15,8 +15,8 @@ const UserSchema = new mongoose.Schema({
   coverPhoto:{type:String, default:null},
   followers:[{type:mongoose.Schema.Types.ObjectId, ref:'User'}],
   following:[{type: mongoose.Schema.Types.ObjectId, ref:'User'}],
-  followerCount:{type:Numnber, default:0},
-  followingCount:{type:Numnber, default:0}
+  followerCount:{type:Number, default:0},
+  followingCount:{type:Number, default:0}
 },{timestamps:true});
 
 const User=mongoose.model('User', UserSchema)

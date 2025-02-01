@@ -72,6 +72,10 @@ const LeftSideBar = ({ handleNavigation }) => {
                         </Avatar>
                         <span className="font-semibold">Walisa</span>
                     </div>
+                    <div className="text-xs text-muted-foreground space-y-1">
+                        <p>Privacy · Terms · Advertising</p>
+                        <p>· TaRaWaPri © 2025</p>
+                    </div>
                 </div>
             </div>
         </aside>
