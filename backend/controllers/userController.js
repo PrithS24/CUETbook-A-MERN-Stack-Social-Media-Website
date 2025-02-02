@@ -139,7 +139,7 @@ const getAllFriendsRequest = async(req,res)=>{
                 $nin: loggedInUser.following //exclude the logged in user's following list
 
             }
-        }).select('username profilePicture email followerCount')
+        }).select('username profilePicture email followerCount followingCount department status studentId')
 
         return response(res,200,'user to follow back done',userToFollowBack)
     } catch (error) {
@@ -148,10 +148,115 @@ const getAllFriendsRequest = async(req,res)=>{
 }
 
 //get all friend request for user
+const getAllUserForFriendsRequest = async(req,res)=>{
+    try {
+        const loggedInUserId = req.user.userId;
 
+        //find the logged in user and retrieve their followers and following
+        const loggedInUser = await User.findById(loggedInUserId).select('followers following')
+        if(!loggedInUser){
+           return response(res,404, 'User not found') 
+        }
+        //find user who neither following nor follower of the logged in user
+        const userForFriendRequest = await User.find({
+            _id:{
+                $ne: loggedInUser, //user who follow the loggedin user
+                $nin: [...loggedInUser.following, ...loggedInUser.followers] //exclude both
+
+            }
+        }).select('username profilePicture email followerCount followingCount department status studentId')
+
+        return response(res,200,'users to send friend request',userForFriendRequest)
+    } catch (error) {
+        return response(res, 500, "Internal server error", error.message);
+    }
+}
+
+//api for mutual friends
+const getAllMutualFriends= async(req,res)=>{
+    try {
+        const loggedInUserId = req.user.userId;
+
+        //find the logged in user and retrieve their followers and following
+        const loggedInUser = await User.findById(loggedInUserId)
+        .select('followers following')
+        .populate('followers', 'username profilePicture email followerCount followingCount department status studentId')
+        .populate('following', 'username profilePicture email followerCount followingCount department status studentId')
+        if(!loggedInUser){
+           return response(res,404, 'User not found') 
+        }
+        
+        //create a set of user id that logged in user is following
+        const followingUserId = new Set(loggedInUser.following.map(user => user._id.toString()))
+
+        //filter followers to get only those who are also following u and followed by logged in user
+        const mutualFriends = loggedInUser.followers.filter(follower=>
+            followingUserId.has(follower._id.toString())
+        )
+
+        return response(res,200,'Mutual friends got successfully',mutualFriends)
+    } catch (error) {
+        return response(res, 500, "Internal server error", error.message);
+    }
+}
+
+//get all users so that you can search for profile
+const getAllUser = async (req, res) => {
+    try {
+        const { search } = req.query;
+        let filter = {};
+
+        if (search) {
+            const searchTerms = search.toLowerCase().split(" "); // Split query into words
+
+            let orConditions = [];
+
+            searchTerms.forEach(term => {
+                orConditions.push({ username: { $regex: new RegExp(term, "i") } }); // Search username
+                orConditions.push({ department: { $regex: new RegExp(term, "i") } }); // Search department
+                orConditions.push({ studentId: { $regex: new RegExp(term, "i") } }); // Search student ID
+                
+                if (["alumni", "student"].includes(term)) {
+                    orConditions.push({ status: term }); // Match exact status
+                }
+
+                if (!isNaN(term)) { // If it's a number, assume it's a batch year
+                    orConditions.push({ batch: term });
+                }
+            });
+
+            filter.$or = orConditions;
+        }
+
+        const users = await User.find(filter).select('username profilePicture email followerCount followingCount department status studentId');
+
+        return response(res, 200, "Got users successfully", users);
+    } catch (error) {
+        return response(res, 500, "Internal server error", error.message);
+    }
+};
+
+//check if user is authenticated or not
+const checkUserAuth = async(req,res)=>{
+    try {
+        const userId = req?.user?.userId
+        if(!userId) return response(res,404, 'Unauthenticated login')
+
+        //fetch user details, leave out sensitive data
+        const user= await User.findById(userId).select('-password');
+        if(!user) return response(res,403, 'User not found')
+            return response(res,201,'User authenticated')
+    } catch (error) {
+        return response(res, 500, "Internal server error", error.message);
+    }
+}
 module.exports = {
     followuser,
     unfollowuser,
     deleteUserFromRequest,
-    getAllFriendsRequest
+    getAllFriendsRequest,
+    getAllUserForFriendsRequest,
+    getAllMutualFriends,
+    getAllUser,
+    checkUserAuth
 };

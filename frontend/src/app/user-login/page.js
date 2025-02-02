@@ -381,6 +381,11 @@ const page = () => {
                             )}
                           </div>
                         </div>
+                        <div className="mt-4 flex justify-end">
+                          <Button type="submit" onClick={handleSubmit(onSubmit)}>
+                            Submit
+                          </Button>
+                        </div>
                       </DialogContent>
                     </Dialog>
                   )}
