@@ -8,4 +8,7 @@ const router = express.Router();
 router.post('/follow', authMiddleware, userController.followuser);
 router.post('/unfollow', authMiddleware, userController.unfollowuser);
 
+//remove user from request
+router.post('/remove/friend-request',authMiddleware,userController.deleteUserFromRequest);
+
 module.exports = router;

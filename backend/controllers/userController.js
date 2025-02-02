@@ -85,7 +85,73 @@ const unfollowuser = async (req, res) => {
     }
 };
 
+//to delete friend request
+const deleteUserFromRequest = async(req,res)=>{
+    try {
+        const loggedInUserId = req.res.userId;
+        const {requestSenderId} = req.body;
+
+        const requestSender = await User.findById(requestSenderId);
+        const loggedInUser = await User.findById(loggedInUserId);
+
+        if (!requestSender || !loggedInUser) {
+            return response(res, 404, "User not found");
+        }
+        //check if the request sender is following loggedin user or not
+        const isRequestSend = requestSender.following.includes(loggedInUserId)
+        if(!isRequestSend){
+            return response(res,404, 'No request found for this user')
+        }
+
+        //remove the loggedin userId from request sender following list
+        requestSender.following = requestSender.following.filter(user=>user.toString !== loggedInUserId )
+        //remove the sender userId from loggedIn user followers list
+        loggedInUser.followers = loggedInUser.followers.filter(user=>user.toString !== requestSenderId )
+
+        //update follower and following counts
+        loggedInUser.followerCount=loggedInUser.followers.length;
+        requestSender.followingCount=requestSender.following.length;
+
+        //save both users
+        await loggedInUser.save();
+        await requestSender.save();
+
+        return response(res,200,`Friend request from ${requestSender.username} deleted successfully`)
+    } catch (error) {
+        return response(res, 500, "Internal server error", error.message);
+    }
+}
+
+//get all friend request
+const getAllFriendsRequest = async(req,res)=>{
+    try {
+        const loggedInUserId = req.user.userId;
+
+        //find the logged in user and retrieve their followers and following
+        const loggedInUser = await User.findById(loggedInUserId).select('followers following')
+        if(!loggedInUser){
+           return response(res,404, 'User not found') 
+        }
+        //find user who follow the logged in user but are not followed back
+        const userToFollowBack = await User.find({
+            _id:{
+                $in: loggedInUser.followers, //user who follow the loggedin user
+                $nin: loggedInUser.following //exclude the logged in user's following list
+
+            }
+        }).select('username profilePicture email followerCount')
+
+        return response(res,200,'user to follow back done',userToFollowBack)
+    } catch (error) {
+        return response(res, 500, "Internal server error", error.message);
+    }
+}
+
+//get all friend request for user
+
 module.exports = {
     followuser,
-    unfollowuser
+    unfollowuser,
+    deleteUserFromRequest,
+    getAllFriendsRequest
 };
