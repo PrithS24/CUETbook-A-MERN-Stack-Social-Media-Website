@@ -1,6 +1,7 @@
 const express = require('express');
 const authMiddleware = require('../middleware/authMiddleware');
 const userController = require('../controllers/userController'); // Import as an object
+const { createOrUpdateUserBio } = require('../controllers/createOrUpdateController');
 
 const router = express.Router();
 
@@ -22,8 +23,4 @@ router.get('/mutual-friends',authMiddleware,userController.getAllMutualFriends)
 
 //get all users from search
 router.get('/',authMiddleware,userController.getAllUser)
-
-router.get('/user-profile/:userId',authMiddleware,userController.getUserProfile)
-
-router.get('/check-auth',authMiddleware,userController.checkUserAuth)
 module.exports = router;

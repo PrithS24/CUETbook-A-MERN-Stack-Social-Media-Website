@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const connectDb = require('./config/db');
 const userRoute = require('./routes/userRoute');
+const userRouter = require('./routes/userRoute')
 
 const app = express();
 
@@ -20,6 +21,7 @@ connectDb()
 
 // API Routes
 app.use('/user', userRoute);
+app.use('/users', userRouter)
 
 // Set PORT with a default fallback
 const PORT = process.env.PORT || 8000;
