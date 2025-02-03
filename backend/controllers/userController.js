@@ -244,11 +244,26 @@ const checkUserAuth = async(req,res)=>{
 
         //fetch user details, leave out sensitive data
         const user= await User.findById(userId).select('-password');
-        if(!user) return response(res,403, 'User not found')
-            return response(res,201,'User authenticated')
+        if(!user) return response(res,403, 'User not found',user)
+        return response(res,201,'User authenticated')
     } catch (error) {
         return response(res, 500, "Internal server error", error.message);
     }
+}
+const getUserProfile=async(req,res)=>{
+    try {
+        const {userId} = req.params;
+        const loggedInUserId=req?.user?.userId
+
+        //fetch user details, leave out sensitive data
+        const userProfile= await User.findById(userId).select('-password');
+        if(!userProfile) return response(res,403, 'User not found')
+            
+        const isOwner = loggedInUserId ===userId;
+        return response(res,201,'User profile found successfully',{profile:userProfile, isOwner})
+    } catch (error) {
+        return response(res, 500, "Internal server error", error.message);
+    } 
 }
 module.exports = {
     followuser,
@@ -258,5 +273,6 @@ module.exports = {
     getAllUserForFriendsRequest,
     getAllMutualFriends,
     getAllUser,
-    checkUserAuth
+    checkUserAuth,
+    getUserProfile
 };

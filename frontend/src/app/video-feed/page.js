@@ -1,25 +1,67 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import LeftSideBar from '../components/LeftSideBar'
 import { Button } from '@/components/ui/button'
 import { ChevronLeft } from 'lucide-react'
 import VideoCard from './VideoCard'
 import Header from '../components/Header';
+import { useRouter } from 'next/router'
 const page =()=>{
-    const videoPosts=[{
+      const [likePosts,setLikePosts]=useState(new Set());
+      const {posts,fetchPost,handleLikePost,handleCommentpost,handleSharePOst}= usePostStore();
+      const router = useRouter();
+
+      useEffect(()=>{
+        fetchPost()
+      },[fetchPost])
+
+      useEffect(()=>{
+        const saveLikes = localStorage.getItem('likePosts');
+        if(saveLikes){
+            setLikePosts(new Set(JSON.parse(saveLikes)));
+        }
+      },[]);
+
+      const handleLike = async(postId)=>{
+        const updatedLikePost = new Set(likePosts);
+        if(updatedLikePost.has(postId)){
+            updatedLikePost.delete(postId);
+            toast.error('post disliked successfully')
+        }else{
+            updatedLikePost.add(postId)
+            toast.success('post liked successfully')
+        }
+        setLikePosts(updatedLikePost);
+        localStorage.setItem('likePosts',JSON.stringify(Array.from(updatedLikePost)))
+
+        try {
+            await handleLikePost(postId);
+            await fetchPost();
+        } catch (error) {
+            console.error(error);
+            toast.error('failed to like or dislike the post')
+            
+        }
+      }
+      const handleBack=()=>{
+        router.push('/')
+      }
+      //filter media types that are videos
+      const videoPost = posts?.filter(post=>post.mediaType==='video');
+    // const videoPosts=[{
        
-            mediaUrl:"",
-            mediaType:"video",
+    //         mediaUrl:"",
+    //         mediaType:"video",
            
-            comments:[{
-                user:{
-                    username:"Pritha",
-                    text:"this is a video",
-                    createdAt:"20-01-2025"
-                }
-            }]
+    //         comments:[{
+    //             user:{
+    //                 username:"Pritha",
+    //                 text:"this is a video",
+    //                 createdAt:"20-01-2025"
+    //             }
+    //         }]
 
         
-    }]
+    // }]
     return(
 
         <div className='min-h-screen'>
@@ -30,13 +72,13 @@ const page =()=>{
 
             <LeftSideBar/>
             <main className='ml-0 md:ml-64 p-6'>
-                <Button variant="ghost" className="mb-4">
+                <Button variant="ghost" className="mb-4" onClick={handleBack}>
                     <ChevronLeft className='mr-2 h-4 w-4'/>
                     Back to feed
 
                 </Button>
                 <div className='max-w-3xl mx-auto'>
-    {videoPosts.map((post) => (
+    {videoPost.map((post) => (
         <VideoCard key={post.id} post={post} />
     ))}
 </div>
