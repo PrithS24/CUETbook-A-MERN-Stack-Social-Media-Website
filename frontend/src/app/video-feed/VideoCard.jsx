@@ -59,8 +59,12 @@ const VideoCard = ({ post }) => {
                     <div className='flex items-center justify-between mb-4 px-4 mt-2'>
                         <div className='flex items-center'>
                             <Avatar className='h-10 w-10 rounded mr-3'>
-                                <AvatarImage />
-                                <AvatarFallback className="dark:bg-gray-400">P</AvatarFallback>
+                                {post?.user?.profilePicture?(
+                                    <AvatarImage src={post?.user?.profilePicture}
+                                    alt={post?.user?.username} />
+                                ):(
+                                    <AvatarFallback className="dark:bg-gray-400">{userPostPlaceholder}</AvatarFallback>
+                                )}
                             </Avatar>
                             <div>
                                 <p className='font-semibold dark:text-white'> Pritha Saha</p>

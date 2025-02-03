@@ -5,9 +5,10 @@ import { ChevronLeft } from 'lucide-react'
 import VideoCard from './VideoCard'
 import Header from '../components/Header';
 import { useRouter } from 'next/router'
+import { comment } from 'postcss'
 const page =()=>{
       const [likePosts,setLikePosts]=useState(new Set());
-      const {posts,fetchPost,handleLikePost,handleCommentpost,handleSharePOst}= usePostStore();
+      const {posts,fetchPost,handleLikePost,handleCommentpost,handleSharePost}= usePostStore();
       const router = useRouter();
 
       useEffect(()=>{
@@ -79,7 +80,18 @@ const page =()=>{
                 </Button>
                 <div className='max-w-3xl mx-auto'>
     {videoPost.map((post) => (
-        <VideoCard key={post.id} post={post} />
+        <VideoCard key={post?._id} post={post} 
+        isLiked={likePosts.has(post?._id)}
+        onLike={()=>handleLike(post?._id)}
+        onComment={async(comment)=>{
+            await handleCommentpost(post?._id,comment.text);
+            await fetchPost();
+        }}
+        onShare = {async()=>{
+            await handleSharePost(post?._id)
+            await fetchPost();
+        }}
+        />
     ))}
 </div>
 

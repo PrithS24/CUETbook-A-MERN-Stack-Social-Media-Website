@@ -23,4 +23,11 @@ router.get('/mutual-friends',authMiddleware,userController.getAllMutualFriends)
 
 //get all users from search
 router.get('/',authMiddleware,userController.getAllUser)
+
+router.get('/user-profile/:userId',authMiddleware,userController.getUserProfile)
+
+router.get('/check-auth',authMiddleware,userController.checkUserAuth)
+
+// create or update user Bio
+router.put('/bio/:userId', authMiddleware, createOrUpdateUserBio)
 module.exports = router;
