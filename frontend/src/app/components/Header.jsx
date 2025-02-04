@@ -29,19 +29,25 @@ import Image from "next/image";
 import useSidebarStore from "../store/sidebarStore";
 import { useRouter } from "next/navigation";
 import userStore from "../store/userStore";
+import { toast } from "react-toastify";
+import { logout } from "../service/auth.service";
+
+
+import Loader from "@/lib/Loader";
+import { getAllUsers } from "../service/user.service";
 const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [userList, setUserList] = useState([]);
-  const [filterUsers, setFilterUsers] = useState([]);
-  const [activeTab, setACtiveTab] = useState("home");
-  const [loading, setLoading] = useState(false);
-  const { user, clearUser } = userStore();
+  const [searchQuery,setSearchQuery] = useState("");
+  const [userList,setUserList] = useState([])
+  const [filterUsers,setFilterUsers] = useState([])
+  const [loading,setLoading] = useState(false);
+  const [activeTab,setActiveTab] = useState("home");
   const searchRef = useRef(null)
-  const [mounted, setMounted] = useState(false);
-  const { theme, setTheme } = useTheme() || {};
-  const { toggleSidebar } = useSidebarStore()
-  const router = useRouter()
+  const { theme, setTheme } = useTheme();
+  const { toggleSidebar } = useSidebarStore();
+  const router = useRouter();
+  const { user, clearUser } = userStore();
+  
 
   const userPlaceholder = user?.username
     ?.split(" ")
@@ -65,9 +71,9 @@ const Header = () => {
     }
   };
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  // useEffect(() => {
+  //   setMounted(true);
+  // }, []);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -85,21 +91,27 @@ const Header = () => {
   }, []); // Correct order: Only fetch once on mount
 
   useEffect(() => {
-    const keywords = searchQuery.toLowerCase().split(" ");
-
-    const filteredUsers = userList.filter((user) =>
-      keywords.every((keyword) =>
-        user.username.toLowerCase().includes(keyword) ||
-        user.department?.toLowerCase().includes(keyword) ||
-        user.studentID?.toLowerCase().includes(keyword) ||
-        user.userType?.toLowerCase().includes(keyword) ||
-        user.batch?.toLowerCase().includes(keyword)
-      )
-    );
-
-    setFilterUsers(filteredUsers);
-    setIsSearchOpen(keywords.length > 0);
-  }, [searchQuery, userList]);
+    const fetchFilteredUsers = async () => {
+      if (searchQuery.trim()) {
+        setLoading(true);
+        try {
+          const result = await getAllUsers(searchQuery); // Fetch filtered users from API
+          setFilterUsers(result);
+          setIsSearchOpen(result.length > 0);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        setFilterUsers([]);
+        setIsSearchOpen(false);
+      }
+    };
+  
+    fetchFilteredUsers();
+  }, [searchQuery]);
+  
 
 
   const handleSearchSubmit = (e) => {
@@ -133,7 +145,7 @@ const Header = () => {
     };
   }, []); // Fixed to ensure consistent order of hooks
 
-  if (!mounted) return null;
+  // if (!mounted) return null;
   if (loading) {
     return <Loader />
   }
