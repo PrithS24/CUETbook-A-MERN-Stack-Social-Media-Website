@@ -5,3 +5,8 @@
     }
   }
 }
+// {
+//   "compilerOptions": {
+//     "baseUrl": "src/app"
+//   }
+// }
