@@ -173,31 +173,33 @@ const getAllUserForFriendsRequest = async(req,res)=>{
 }
 
 //api for mutual friends
-const getAllMutualFriends= async(req,res)=>{
+const getAllMutualFriends = async (req, res) => {
     try {
-        const loggedInUserId = req.user.userId;
+        const ProfileUserId = req.params.userId;
 
-        //find the logged in user and retrieve their followers and following
-        const loggedInUser = await User.findById(loggedInUserId)
+        //find the logged in user and retrive their followers and following
+        const loggedInUser = await User.findById(ProfileUserId)
         .select('followers following')
-        .populate('followers', 'username profilePicture email followerCount followingCount department status studentId')
-        .populate('following', 'username profilePicture email followerCount followingCount department status studentId')
+        .populate('following', 'username profilePicture email followerCount followingCount')
+        .populate('followers','username profilePicture email followerCount followingCount')
+
         if(!loggedInUser){
-           return response(res,404, 'User not found') 
+           return response(res, 404, 'User not found')
         }
-        
+
         //create a set of user id that logged in user is following
         const followingUserId = new Set(loggedInUser.following.map(user => user._id.toString()))
 
-        //filter followers to get only those who are also following u and followed by logged in user
-        const mutualFriends = loggedInUser.followers.filter(follower=>
+        //filter followers to get only those who are also following you and followed by loggin user 
+        const mutualFriends = loggedInUser.followers.filter(follower => 
             followingUserId.has(follower._id.toString())
         )
 
-        return response(res,200,'Mutual friends got successfully',mutualFriends)
-    } catch (error) {
-        return response(res, 500, "Internal server error", error.message);
-    }
+        return response(res,200, 'Mutual friends get successfully', mutualFriends)
+
+   } catch (error) {
+       return response(res, 500, 'Internal server error', error.message)
+   }
 }
 
 //get all users so that you can search for profile

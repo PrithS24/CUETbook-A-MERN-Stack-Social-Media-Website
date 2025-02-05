@@ -1,8 +1,10 @@
 const User = require("../model/User");
 const EligibleUser = require("../model/EligibleUser");
 const response = require("../utils/responseHandler");
+const { generateToken } = require("../utils/generateToken");
 const bcrypt = require('bcryptjs');
-const generateToken = require("../utils/tokenGenerator"); 
+
+
 
 const registerUser = async (req, res) => {
     try {
@@ -72,5 +74,14 @@ const registerUser = async (req, res) => {
         return response(res, 500, "Internal Server Error", error.message);
     }
 };
+const loginUser = async (req, res) => {
+    res.json({ message: "User logged in successfully" });
+};
 
-module.exports = { registerUser };
+const logout = async (req, res) => {
+    res.json({ message: "User logged out successfully" });
+};
+
+
+module.exports = { registerUser, loginUser, logout };
+

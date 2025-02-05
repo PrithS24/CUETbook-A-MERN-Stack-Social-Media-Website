@@ -4,8 +4,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const connectDb = require('./config/db');
-const userRoute = require('./routes/userRoute');
-const userRouter = require('./routes/userRoute')
+const authRoute = require('./routes/authRoute');
 
 const app = express();
 
@@ -20,9 +19,7 @@ connectDb()
     .catch((err) => console.error("Database connection failed:", err));
 
 // API Routes
-app.use('/user', userRoute);
-app.use('/users', userRouter)
-
+app.use('/api/auth', authRoute);
 // Set PORT with a default fallback
 const PORT = process.env.PORT || 8000;
 
