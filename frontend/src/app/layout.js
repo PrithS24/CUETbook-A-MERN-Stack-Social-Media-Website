@@ -59,6 +59,8 @@ import localFont from "next/font/local";
 import { ThemeProvider } from "next-themes";
 import { usePathname } from "next/navigation"; // Import usePathname
 import Header from './components/Header';
+import { Toaster } from "react-hot-toast";
+import AuthWrapper from "./auth-wrapper"
 
 // Google Fonts (Optional if you're using local fonts)
 const googleGeistSans = Geist({
@@ -92,14 +94,15 @@ export default function RootLayout({ children }) {
       <body
         className={`${localGeistSans.variable} ${localGeistMono.variable} antialiased`}
       >
+        <Toaster/>
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
           enableSystem={false}
         >
-          {/* Conditionally render Header */}
-          {!hideHeaderRoutes.includes(pathname) && <Header />}
+          <AuthWrapper>
           {children}
+         </AuthWrapper>
         </ThemeProvider>
       </body>
     </html>
