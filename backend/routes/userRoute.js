@@ -1,7 +1,7 @@
 const express = require('express');
 const authMiddleware = require('../middleware/authMiddleware');
 const userController = require('../controllers/userController'); // Import as an object
-const { createOrUpdateUserBio } = require('../controllers/createOrUpdateControllers');
+const { createOrUpdateUserBio } = require('../controllers/createOrUpdateController');
 
 const router = express.Router();
 

@@ -1,6 +1,7 @@
 const Bio = require('../model/UserBio')
 const User = require('../model/User');
 const response = require('../utils/responseHandler');
+const { uploadFileToCloudinary } = require('../config/cloudinary');
 
 const createOrUpdateUserBio = async(req,res) =>{
     try {
@@ -39,7 +40,69 @@ const createOrUpdateUserBio = async(req,res) =>{
         return response(res,500,'Internal server error',error.message)
     }
 }
+const updateCoverPhoto = async(req,res) => {
+    try{
+        const { userId } = req.params
+        const file = req.file;
+
+        let coverPicture = null;
+        if( file){
+            const uploadResult = await uploadFileToCloudinary(file)
+            coverPicture = uploadResult.secure_url
+        }
+
+        if( !coverPicture){
+            return response(res, 400, 'failed to upload cover photo')
+        }
+        // update user profile with cover photo
+        await User.updateOne({_id: userId},{
+            $set:{
+                coverPicture
+            }
+        })
+        const updateUser = await User.findById(userId)
+        if( !updateUser ){
+            return response(res, 404, 'User not found with this id')
+        }
+        return response(res, 200, 'Cover Picture Update sucessfully', updateUser)
+    } catch (error) {
+        console.log(error)
+        return response(res,500,'Internal server error',error.message)
+    }
+}
+const updateUserProfile = async(req,res) => {
+    try{
+        const { userId } = req.params
+        const { username, gender, dateOfBirth} = req.body
+        const file = req.file;
+
+        let profilePicture = null;
+        if( file){
+            const uploadResult = await uploadFileToCloudinary(file)
+            profilePicture = uploadResult.secure_url
+        }
+
+        // update user profile with profile photo
+        await User.updateOne({_id: userId},{
+            $set:{
+                username,
+                gender,
+                dateOfBirth,
+                ...(profilePicture && {profilePicture})
+            }
+        })
+        const updateUser = await User.findById(userId)
+        if( !updateUser ){
+            return response(res, 404, 'User not found with this id')
+        }
+        return response(res, 200, 'Profile Picture Update sucessfully', updateUser)
+    } catch (error) {
+        console.log(error)
+        return response(res,500,'Internal server error',error.message)
+    }
+
+}
 
 module.exports = {
-    createOrUpdateUserBio
+    createOrUpdateUserBio, updateCoverPhoto, updateUserProfile
 }

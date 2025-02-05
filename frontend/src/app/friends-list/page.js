@@ -4,32 +4,29 @@ import LeftSideBar from "../components/LeftSideBar";
 import { FriendCardSkeleton, NoFriendsMessage } from "@/lib/Skeleten";
 import FriendRequest from "./FriendRequest";
 import FriendsSuggestion from "./FriendsSuggestion";
-import { userFriendStore } from "@/store/userFriendsStore";
+import { userFriendStore } from "../store/userFriendsStore";
 import toast from "react-hot-toast";
 
-
 const Page = () => {
-   const {followUser,loading,UnfollowUser,fetchFriendRequest,fetchFriendSuggestion,deleteUserFromRequest,fetchMutualFriends,friendRequest,friendSuggestion,mutualFriends} = userFriendStore()
+  const {followUser,loading,UnfollowUser,fetchFriendRequest,fetchFriendSuggestion,deleteUserFromRequest,fetchMutualFriends,friendRequest,friendSuggestion,mutualFriends} = userFriendStore()
 
-   useEffect(() => {
-       fetchFriendRequest(),
-       fetchFriendSuggestion()
-   },[])
-   
-   const handleAction = async(action,userId) =>{
-    if(action === "confirm"){
-       toast.success("friend added successfully")
-        await followUser(userId);
-        fetchFriendRequest()
-        fetchFriendSuggestion()
-    } else if(action ==="delete"){
-      await UnfollowUser(userId);
-      fetchFriendRequest()
-      fetchFriendSuggestion()
-    } 
-   }
-   
-   
+  useEffect(() => {
+    fetchFriendRequest(),
+    fetchFriendSuggestion()
+},[])
+
+const handleAction = async(action,userId) =>{
+ if(action === "confirm"){
+    toast.success("friend added successfully")
+     await followUser(userId);
+     fetchFriendRequest()
+     fetchFriendSuggestion()
+ } else if(action ==="delete"){
+   await UnfollowUser(userId);
+   fetchFriendRequest()
+   fetchFriendSuggestion()
+ } 
+}
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-[rgb(36,37,38)] ">
       <LeftSideBar />
@@ -44,7 +41,9 @@ const Page = () => {
               description="Looks like you are all caught up! Why not explore and connect with new people?"
             />
           ) : (
-            friendRequest.map((friend) => <FriendRequest key={friend._id}  friend={friend} loading={loading} onAction={handleAction}  />)
+            friendRequest.map((friend) => (
+              <FriendRequest key={friend._id} friend={friend} loading={loading} onAction={handleAction}/>
+            ))
           )}
         </div>
 
@@ -59,7 +58,7 @@ const Page = () => {
             />
           ) : (
             friendSuggestion.map((friend) => (
-              <FriendsSuggestion key={friend._id}   friend={friend} loading={loading} onAction={handleAction} />
+              <FriendsSuggestion key={friend._id} friend={friend} loading={loading} onAction={handleAction}/>
             ))
           )}
         </div>

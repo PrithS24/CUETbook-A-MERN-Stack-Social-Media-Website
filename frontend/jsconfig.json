@@ -1,7 +1,13 @@
 {
   "compilerOptions": {
+    // "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     }
   }
 }
+// {
+//   "compilerOptions": {
+//     "baseUrl": "src/app"
+//   }
+// }

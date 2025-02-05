@@ -1,10 +1,14 @@
+"use client"
 import React, { useEffect, useState } from 'react'
 import LeftSideBar from '../components/LeftSideBar'
 import { Button } from '@/components/ui/button'
 import { ChevronLeft } from 'lucide-react'
 import VideoCard from './VideoCard'
+import { usePostStore } from '@/app/store/usePostStore';
+
+
 import Header from '../components/Header';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import { comment } from 'postcss'
 const page =()=>{
       const [likePosts,setLikePosts]=useState(new Set());
