@@ -148,8 +148,27 @@ const ProfileHeader = ({
           <div className="mt-4 mdLmt-0 text-center md:text-left flex-grow">
             <h1 className="text-3xl font-bold">{profileData?.username}</h1>
             <p className="text-gray-400 font-semibold">
+              {profileData?.userType} 
+            </p>
+            <p className="text-gray-400 font-semibold">
+              Department of {profileData?.department} 
+            </p>
+            <p className="text-gray-400 font-semibold">
+              ID: {profileData?.studentID} 
+            </p>
+            <p className="text-gray-400 font-semibold">
               {profileData?.followerCount} friends
             </p>
+            {profileData?.userType === "alumni" && (
+    <>
+      <p className="text-gray-400 font-semibold">
+        Batch: {profileData?.batch}
+      </p>
+      <p className="text-gray-400 font-semibold">
+        Graduation Year: {profileData?.graduationYear}
+      </p>
+    </>
+  )}
           </div>
           {isOwner && (
             <Button
