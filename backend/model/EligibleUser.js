@@ -6,7 +6,7 @@ const EligibleUserSchema = new mongoose.Schema({
   studentID: { type: String, required: true, unique: true },
   department: { type: String, required: true },
   userType: { type: String, enum: ["student", "alumni"], required: true }, // Differentiates user type
-  batch: { type: String, required: function () { return this.userType === "alumni"; } }, // Alumni-specific
+  batch: { type: Number, required: function () { return this.userType === "alumni"; } }, // Alumni-specific
   graduationYear: { type: Number, required: function () { return this.userType === "alumni"; } }, // Alumni-specific
 }, { timestamps: true });
 

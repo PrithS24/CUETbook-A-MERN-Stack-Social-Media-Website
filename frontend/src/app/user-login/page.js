@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   Card,
@@ -19,6 +19,8 @@ import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { LogIn } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { loginUser, registerUser } from "@/app/service/auth.service"
+import toast from "react-hot-toast";
 import {
   Select,
   SelectItem,
@@ -34,6 +36,7 @@ import {
 
 const page = () => {
   const router = useRouter();
+  const [isLoading,setIsLoading]= useState(true)
 
   // Validation schema for Sign-Up
   const registerSchema = yup.object().shape({
@@ -52,8 +55,7 @@ const page = () => {
       .oneOf(["male", "female", "other"], "Please select a gender")
       .required("Gender is required"),
     studentId: yup.string().required("Student ID is required"),
-    department: yup.string().required("Department is required"),
-    isAlumni: yup
+    userType: yup
       .string()
       .required("Please select if you are a student or alumni"),
     batch: yup.string().when("isAlumni", {
@@ -85,12 +87,49 @@ const page = () => {
   });
   const {
     register: registerSignUp,
+    setValue,
     handleSubmit: handleSubmitSignUp,
     reset: resetSignUpForm,
     formState: { errors: errorsSignUp },
   } = useForm({
     resolver: yupResolver(registerSchema),
   });
+
+  const onSubmitRegister = async(data) =>{
+    try {
+       const result = await registerUser(data)
+        if(result.status === 'success'){
+          router.push('/')
+        }
+        toast.success('User register successfully')
+    } catch (error) {
+      console.error(error);
+      toast.error('email already exist')
+    }finally{
+      setIsLoading(false);
+    }
+  }
+  //reset the form
+  useEffect(() =>{
+    resetLoginForm();
+    resetSignUpForm()
+ },[resetLoginForm,resetSignUpForm])
+
+
+ const onSubmitLogin = async(data) =>{
+   try {
+      const result = await loginUser(data)
+       if(result.status === 'success'){
+         router.push('/')
+       }
+       toast.success('User login successfully')
+   } catch (error) {
+     console.error(error);
+     toast.error('invalid email or password')
+   }finally{
+     setIsLoading(false);
+   }
+ }
 
   const [isAlumni, setIsAlumni] = useState(false);
 
@@ -119,7 +158,7 @@ const page = () => {
               </TabsList>
 
               <TabsContent value="login">
-                <form>
+                <form onSubmit={handleSubmitLogin(onSubmitLogin)}>
                   <div className="space-y-4">
                     <div className="space-y-2">
                       <Label htmlFor="loginEmail">Email</Label>
@@ -161,7 +200,7 @@ const page = () => {
               </TabsContent>
 
               <TabsContent value="signup" className="mt-500">
-                <form>
+                <form onSubmit={handleSubmitSignUp(onSubmitRegister)}>
                   <div className="grid grid-cols-2 gap-6">
                     {/* Column 1 */}
                     <div className="space-y-4">
@@ -188,7 +227,7 @@ const page = () => {
                           id="signupGender"
                           name="gender"
                           {...registerSignUp("gender")}
-                          className="w-full border dark:border-gray-400 rounded-md px-3 py-2"
+                          className="w-full border dark:border-gray-400 text-sm rounded-md px-2 py-2"
                         >
                           <option value="">Select your gender</option>
                           <option value="male">Male</option>
@@ -255,66 +294,6 @@ const page = () => {
                           </p>
                         )}
                       </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="signupDepartment">Department</Label>
-                        <Select
-                          id="signupDepartment"
-                          {...registerSignUp("department")}
-                          className="w-full"
-                        >
-                          <SelectTrigger placeholder="Select Department">
-                            <SelectContent>
-                              <SelectItem value="CE">CE</SelectItem>
-                              <SelectItem value="EEE">EEE</SelectItem>
-                              <SelectItem value="ME">ME</SelectItem>
-                              <SelectItem value="CSE">CSE</SelectItem>
-                              <SelectItem value="URP">URP</SelectItem>
-                              <SelectItem value="ARCHI">ARCHI</SelectItem>
-                              <SelectItem value="PME">PME</SelectItem>
-                              <SelectItem value="ETE">ETE</SelectItem>
-                              <SelectItem value="MIE">MIE</SelectItem>
-                              <SelectItem value="WRE">WRE</SelectItem>
-                              <SelectItem value="BME">BME</SelectItem>
-                              <SelectItem value="MSE">MSE</SelectItem>
-                            </SelectContent>
-                          </SelectTrigger>
-                        </Select>
-                        {errorsSignUp.department && (
-                          <p className="text-red-500">
-                            {errorsSignUp.department.message}
-                          </p>
-                        )}
-                      </div>
-
-                      {/* <div className="space-y-2">
-          <Label htmlFor="signupDepartment">Department</Label>
-          <Select
-            id="signupDepartment"
-            {...registerSignUp("department")}
-            className="w-full"
-          >
-            <SelectTrigger placeholder="Select Department">
-              <SelectContent>
-                <SelectItem value="CSE">CE</SelectItem>
-                <SelectItem value="EEE">EEE</SelectItem>
-                <SelectItem value="ME">ME</SelectItem>
-                <SelectItem value="CE">CSE</SelectItem>
-                <SelectItem value="CE">URP</SelectItem>
-                <SelectItem value="CE">ARCHI</SelectItem>
-                <SelectItem value="CE">PME</SelectItem>
-                <SelectItem value="CE">ETE</SelectItem>
-                <SelectItem value="CE">MIE</SelectItem>
-                <SelectItem value="CE">WRE</SelectItem>
-                <SelectItem value="CE">BME</SelectItem>
-                <SelectItem value="CE">MSE</SelectItem>
-              </SelectContent>
-            </SelectTrigger>
-          </Select>
-          {errorsSignUp.department && (
-            <p className="text-red-500">{errorsSignUp.department.message}</p>
-          )}
-        </div> */}
                     </div>
                   </div>
 
@@ -322,8 +301,13 @@ const page = () => {
                     <Label>Status</Label>
                     <RadioGroup
                       className="flex justify-between"
-                      {...registerSignUp("status")}
-                      onValueChange={(value) => setIsAlumni(value === "alumni")}
+                      {...registerSignUp("userType")}
+                        onValueChange={
+                        (value) => 
+                        {setValue("userType", value === "alumni"? "alumni": "student");
+                        setIsAlumni(value === "alumni");}
+                      }
+                      
                     >
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="current" id="current" />
@@ -340,6 +324,7 @@ const page = () => {
                       </p>
                     )}
                   </div>
+                  
 
                   {isAlumni && (
                     <Dialog open={isAlumni} onOpenChange={setIsAlumni}>

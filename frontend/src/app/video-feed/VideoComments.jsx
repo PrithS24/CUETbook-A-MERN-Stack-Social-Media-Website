@@ -1,6 +1,7 @@
 import React from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from '@/components/ui/button';
+import { formatDate } from 'date-fns';
 
 const VideoComments = ({ comments }) => {
     return (
@@ -8,8 +9,18 @@ const VideoComments = ({ comments }) => {
             {comments.map((comment, index) => (
                 <div className='flex items-start space-x-2 mb-4'>
                     <Avatar className='h-8 w-8'>
-                        <AvatarImage />
-                        <AvatarFallback className="dark:bg-gray-400">P</AvatarFallback>
+                       {comment?.user?.profilePicture?(
+                        <AvatarImage
+                        src={comment?.user?.profilePicture}
+                        alt={comment?.user?.username}/>
+                       ):(
+                        <AvatarFallback className="dark:bg-gray-400">
+                        {comment?.user?.username?.split(" ")
+                            .map((name)=>name[0])
+                            .join(" ")}
+                        
+                        </AvatarFallback>
+                       )}
                     </Avatar>
                     <div className="flex-1">
                         <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-2">
@@ -20,7 +31,8 @@ const VideoComments = ({ comments }) => {
                         <div className="flex items-center mt-1 text-xs text-gray-500">
                             <Button variant='ghost' size="sm">Like</Button>
                             <Button variant='ghost' size="sm">Reply</Button>
-                            <span>{comment?.user?.createdAt}</span>
+                            <span>{formatDate(comment.createdAt)}</span>
+                            {/* <span>{comment?.user?.createdAt}</span> */}
                         </div>
                     </div>
                 </div>
