@@ -2,7 +2,8 @@ const User = require("../model/User");
 const EligibleUser = require("../model/EligibleUser");
 const response = require("../utils/responseHandler");
 const bcrypt = require('bcryptjs');
-const generateToken = require("../utils/generateToken"); 
+const { generateToken } = require('../utils/generateToken'); // Adjust import accordingly
+
 
 const registerUser = async (req, res) => {
     try {
