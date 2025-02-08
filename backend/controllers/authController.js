@@ -2,7 +2,7 @@ const User = require("../model/User");
 const EligibleUser = require("../model/EligibleUser");
 const response = require("../utils/responseHandler");
 const bcrypt = require('bcryptjs');
-const generateToken = require("../utils/generateToken"); 
+const { generateToken } = require("../utils/generateToken"); 
 
 const registerUser = async (req, res) => {
     try {
@@ -137,7 +137,7 @@ const loginUser = async(req,res) => {
 }
 const logout = (req,res) => {
     try{
-        res.cookie("auth token", " ",{
+        res.cookie("auth_token", " ",{
             httpOnly: true,
             expires: new Date(0)
         })
