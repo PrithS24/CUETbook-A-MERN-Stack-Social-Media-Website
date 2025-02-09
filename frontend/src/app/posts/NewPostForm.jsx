@@ -36,6 +36,8 @@ const NewPostForm = ({ isPostFormOpen, setIsPostFormOpen }) => {
   const fileInputRef = useRef(null);
   // const Picker = dynamic(() => import("emoji-picker-react"), { ssr: false });
 
+  const [isJobPost, setIsJobPost] = useState(false); // State for checkbox
+
   const userPlaceholder = user?.username
     ?.split(" ")
     .map((name) => name[0])
@@ -58,6 +60,7 @@ const NewPostForm = ({ isPostFormOpen, setIsPostFormOpen }) => {
       setLoading(true);
       const formData = new FormData();
       formData.append("content", postContent);
+      formData.append("isJobPost", isJobPost);
       if (selectedFile) {
         formData.append("media", selectedFile);
       }
@@ -71,6 +74,17 @@ const NewPostForm = ({ isPostFormOpen, setIsPostFormOpen }) => {
       console.error(error);
       setLoading(false);
     }
+  };
+
+  // Checkbox change handler
+  // const handleCheckboxChange = (e) => {
+  //   if (e.target) {
+  //     setIsJobPost(e.target.checked);
+  //   }
+  // };
+
+  const handleCheckboxChange = (checked) => {
+    setIsJobPost(checked); // Properly update checkbox state
   };
 
   return (
@@ -217,6 +231,21 @@ const NewPostForm = ({ isPostFormOpen, setIsPostFormOpen }) => {
                   </motion.div>
                 )}
               </AnimatePresence>
+
+              {/**job post */}
+              <div className="flex items-center space-x-2 mt-4">
+                <Checkbox
+                  id="terms1"
+                  checked={isJobPost}
+                  onCheckedChange={handleCheckboxChange}
+                />
+                <label
+                  htmlFor="terms1"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  Post as Job Post
+                </label>
+              </div>
 
               <div className="bg-gray-200 dark:bg-muted p-4 rounded-lg mt-4 ">
                 <p className="font-semibold mb-2">Add Your Post</p>
