@@ -10,7 +10,7 @@ router.post('/follow', authMiddleware, userController.followuser);
 router.post('/unfollow', authMiddleware, userController.unfollowuser);
 
 //remove user from request
-router.post('/friend-request/remove',authMiddleware,userController.deleteUserFromRequest);
+router.post('/remove/friend-request',authMiddleware,userController.deleteUserFromRequest);
 
 //get all friends request
 router.get('/friend-request',authMiddleware, userController.getAllFriendsRequest)
