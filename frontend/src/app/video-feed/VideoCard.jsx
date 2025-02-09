@@ -20,6 +20,7 @@ import { ScrollArea } from '@radix-ui/react-scroll-area';
 import VideoComments from './VideoComments';
 import { Input } from "@/components/ui/input";
 import { useRef } from 'react';
+import userStore from '../store/userStore';
 
 const VideoCard = ({ post, isLiked, onShare, onComment, onLike}) => {
     const [isShareDialogOpen, setIsShareDialogOpen] = useState(false);
@@ -36,7 +37,7 @@ const VideoCard = ({ post, isLiked, onShare, onComment, onLike}) => {
       }
     
     
-      const userPlaceholder = user?.username
+      const userPostPlaceholder = user?.username
       ?.split(" ")
       .map((name) => name[0])
       .join("");

@@ -88,7 +88,7 @@ const unfollowuser = async (req, res) => {
 //to delete friend request
 const deleteUserFromRequest = async(req,res)=>{
     try {
-        const loggedInUserId = req.res.userId;
+        const loggedInUserId = req.user.userId;
         const {requestSenderId} = req.body;
 
         const requestSender = await User.findById(requestSenderId);
@@ -139,7 +139,7 @@ const getAllFriendsRequest = async(req,res)=>{
                 $nin: loggedInUser.following //exclude the logged in user's following list
 
             }
-        }).select('username profilePicture email followerCount followingCount department status studentId')
+        }).select('username profilePicture email followerCount followingCount department userType studentID')
 
         return response(res,200,'user to follow back done',userToFollowBack)
     } catch (error) {
@@ -164,7 +164,7 @@ const getAllUserForFriendsRequest = async(req,res)=>{
                 $nin: [...loggedInUser.following, ...loggedInUser.followers] //exclude both
 
             }
-        }).select('username profilePicture email followerCount followingCount department status studentId')
+        }).select('username profilePicture email followerCount followingCount department userType studentID')
 
         return response(res,200,'users to send friend request',userForFriendRequest)
     } catch (error) {
@@ -180,8 +180,8 @@ const getAllMutualFriends= async(req,res)=>{
         //find the logged in user and retrieve their followers and following
         const loggedInUser = await User.findById(loggedInUserId)
         .select('followers following')
-        .populate('followers', 'username profilePicture email followerCount followingCount department status studentId')
-        .populate('following', 'username profilePicture email followerCount followingCount department status studentId')
+        .populate('followers', 'username profilePicture email followerCount followingCount department userType studentID')
+        .populate('following', 'username profilePicture email followerCount followingCount department userType studentID')
         if(!loggedInUser){
            return response(res,404, 'User not found') 
         }
@@ -228,7 +228,7 @@ const getAllUser = async (req, res) => {
             filter.$or = orConditions;
         }
 
-        const users = await User.find(filter).select('username profilePicture email followerCount followingCount department status studentId');
+        const users = await User.find(filter).select('username profilePicture email followerCount followingCount department userType studentID');
 
         return response(res, 200, "Got users successfully", users);
     } catch (error) {
