@@ -54,6 +54,8 @@ const Header = () => {
     .map((name) => name[0])
     .join("");
 
+  console.log(user);
+
   const handleNavigation = (path) => {
     router.push(path);
   };
@@ -270,7 +272,7 @@ const Header = () => {
                         </AvatarFallback>
                       )}
                     </Avatar>
-                    <div className="">
+                    <div >
                       <p className="text-sm font-medium leading-none">
                         {user?.username}
                       </p>
