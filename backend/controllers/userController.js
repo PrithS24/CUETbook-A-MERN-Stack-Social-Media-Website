@@ -148,7 +148,7 @@ const getAllFriendsRequest = async(req,res)=>{
 }
 
 //get all friend request for user
-const getAllUserForFriendsRequest = async(req,res)=>{
+const getAllUserForRequest = async(req,res)=>{
     try {
         const loggedInUserId = req.user.userId;
 
@@ -272,7 +272,7 @@ module.exports = {
     unfollowuser,
     deleteUserFromRequest,
     getAllFriendsRequest,
-    getAllUserForFriendsRequest,
+    getAllUserForRequest,
     getAllMutualFriends,
     getAllUser,
     checkUserAuth,

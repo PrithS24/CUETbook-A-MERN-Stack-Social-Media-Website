@@ -1,33 +1,64 @@
 const express = require('express');
 const authMiddleware = require('../middleware/authMiddleware');
-const userController = require('../controllers/userController'); // Import as an object
-const { createOrUpdateUserBio } = require('../controllers/createOrUpdateController');
-
+const { 
+    followuser,
+    unfollowuser,
+    deleteUserFromRequest,
+    getAllFriendsRequest,
+    getAllUserForRequest,
+    getAllMutualFriends,
+    getAllUser,
+    checkUserAuth,
+    getUserProfile
+} = require("../controllers/userController")
+const { createOrUpdateUserBio, updateUserProfile, updateCoverPhoto } = require('../controllers/createOrUpdateController');
+const { multerMiddleware } = require('../config/cloudinary');
 const router = express.Router();
 
-// Ensure correct function references
-router.post('/follow', authMiddleware, userController.followuser);
-router.post('/unfollow', authMiddleware, userController.unfollowuser);
+
+//user follow 
+router.post('/follow',authMiddleware,followuser)
+
+//user unfollow
+router.post('/unfollow',authMiddleware,unfollowuser)
 
 //remove user from request
-router.post('/friend-request/remove',authMiddleware,userController.deleteUserFromRequest);
+router.post('/friend-request/remove',authMiddleware,deleteUserFromRequest)
+
 
 //get all friends request
-router.get('/friend-request',authMiddleware, userController.getAllFriendsRequest)
+router.get('/friend-request',authMiddleware,getAllFriendsRequest )
 
-//get all friends to send request
-router.get('/user-to-request',authMiddleware, userController.getAllUserForFriendsRequest)
 
-//get all mutual friend
-router.get('/mutual-friends',authMiddleware,userController.getAllMutualFriends)
+//get all friends for request
+router.get('/user-to-request',authMiddleware,getAllUserForRequest)
 
-//get all users from search
-router.get('/',authMiddleware,userController.getAllUser)
 
-router.get('/user-profile/:userId',authMiddleware,userController.getUserProfile)
+//get all mutual friends 
+router.get('/mutual-friends/:userId',authMiddleware,getAllMutualFriends)
 
-router.get('/check-auth',authMiddleware,userController.checkUserAuth)
 
-// create or update user Bio
-router.put('/bio/:userId', authMiddleware, createOrUpdateUserBio)
+//get all users fror search 
+router.get('/',authMiddleware,getAllUser)
+
+//get all users fror search 
+router.get('/profile/:userId',authMiddleware,getUserProfile)
+
+
+//get all users fror search 
+router.get('/check-auth',authMiddleware,checkUserAuth)
+
+
+
+//create or update user bio
+router.put('/bio/:userId',authMiddleware, createOrUpdateUserBio)
+
+
+// update user profile
+router.put('/profile/:userId',authMiddleware, multerMiddleware.single('profilePicture'),updateUserProfile)
+
+
+// update user cover
+router.put('/profile/cover-photo/:userId',authMiddleware,multerMiddleware.single('coverPhoto') ,updateCoverPhoto)
+
 module.exports = router;
