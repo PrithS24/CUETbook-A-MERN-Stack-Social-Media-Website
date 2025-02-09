@@ -1,13 +1,18 @@
 import axios from "axios";
 
 const ApiUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
-console.log("API URL", ApiUrl)
 
+if (!ApiUrl) {
+    console.error('API URL is not defined!');
+} else {
+    console.log('API URL:', ApiUrl);
+}
+
+// Only call trim if ApiUrl is not undefined
 const axiosInstance = axios.create({
-    baseURL: ApiUrl.trim(),
+    baseURL: ApiUrl ? ApiUrl.trim() : '', // Fallback to empty string if undefined
     withCredentials: true
-})
+});
 
-console.log("Axios Base URL after creation:", axiosInstance.defaults.baseURL);
 
 export default axiosInstance;
