@@ -1,10 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import LeftSideBar from "../components/LeftSideBar";
-import { FriendCardSkeleton, NoFriendsMessage } from "@/lib/Skeleten";
+import { FriendCardSkeleton, NoFriendsMessage } from "@/lib/Skeleton";
 import FriendRequest from "./FriendRequest";
 import FriendsSuggestion from "./FriendsSuggestion";
-import { userFriendStore } from "../store/userFriendsStore";
+import { userFriendStore } from "../../store/userFriendsStore";
 import toast from "react-hot-toast";
 
 const Page = () => {

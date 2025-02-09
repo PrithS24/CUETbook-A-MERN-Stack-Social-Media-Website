@@ -1,7 +1,7 @@
 "use client"
 import Loader from "@/lib/Loader";
-import { checkUserAuth, logout } from "../app/service/auth.service";
-import userStore from "../app/store/userStore";
+import { checkUserAuth, logout } from "../service/auth.service";
+import userStore from "../store/userStore";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Header from "./components/Header";
