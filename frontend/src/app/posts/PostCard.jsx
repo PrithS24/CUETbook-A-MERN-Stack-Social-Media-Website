@@ -205,11 +205,11 @@ const PostCard = ({ post, isLiked, onShare, onComment, onLike }) => {
               open={isShareDialogOpen}
               onOpenChange={setIsShareDialogOpen}
             >
-              <DialogTrigger asChild>
-                {/* <span className={`flex-1 cursor-pointer dark:hover:bg-gray-700 ${post?.jobPost ? 'dark:text-gray-800 dark:hover:bg-white' : ''}`}>
+              {/* <DialogTrigger asChild>
+                <span className={`flex-1 cursor-pointer dark:hover:bg-gray-700 ${post?.jobPost ? 'dark:text-gray-800 dark:hover:bg-white' : ''}`}>
                   <Share2 className="mr-2 h-4 w-4 " /> Share
                 </span> */}
-                <Button
+              {/* <Button
                   variant="ghost"
                   className={`flex-1 flex items-center justify-center gap-2 dark:hover:bg-gray-700 ${
                     post?.jobPost
@@ -219,8 +219,21 @@ const PostCard = ({ post, isLiked, onShare, onComment, onLike }) => {
                 >
                   <Share2 className="h-4 w-4" />
                   Share
-                </Button>
+                </Button> */}
+              {/* </DialogTrigger> */}
+
+              <DialogTrigger asChild>
+                <div
+                  className={`flex-1 flex items-center justify-center gap-2 rounded-md px-3 py-2 text-sm font-medium cursor-pointer transition 
+      dark:hover:bg-gray-700 dark:text-white
+      ${post?.jobPost ? "dark:text-gray-800 dark:hover:bg-white" : ""}
+    `}
+                >
+                  <Share2 className="h-4 w-4" />
+                  Share
+                </div>
               </DialogTrigger>
+
               <DialogContent>
                 <DialogHeader>
                   <DialogTitle>Share This Post</DialogTitle>
