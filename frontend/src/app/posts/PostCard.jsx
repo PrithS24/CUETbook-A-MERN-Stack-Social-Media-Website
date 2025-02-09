@@ -17,18 +17,21 @@ import PostComments from "./PostComments";
 import { format, parseISO } from "date-fns";
 
 const PostCard = ({ post, isLiked, onShare, onComment, onLike }) => {
-  const formattedDate = format(new Date(post.createdAt), 'MM/dd/yyyy');
+  // const formattedDate = format(new Date(post.createdAt), 'MM/dd/yyyy');
   const [isShareDialogOpen, setIsShareDialogOpen] = useState(false);
   const [showComments, setShowComments] = useState(false);
-  const commentInputRef = useRef(null)
+  const commentInputRef = useRef(null);
 
   const handleCommentClick = () => {
     setShowComments(true);
     setTimeout(() => {
       commentInputRef?.current?.focus();
-    }, 0)
-  }
-  const userPostplaceholder = post?.user?.username?.split("").map((name) => name[0]).join("");
+    }, 0);
+  };
+  const userPostplaceholder = post?.user?.username
+    ?.split("")
+    .map((name) => name[0])
+    .join("");
   const generateSharedLink = () => {
     return `http://localhost:3000/${post?.id}`;
   };
@@ -73,57 +76,71 @@ const PostCard = ({ post, isLiked, onShare, onComment, onLike }) => {
       transition={{ duration: 0.5 }}
     >
       <Card>
-        <CardContent className={`p-6 dark:text-white ${post?.jobPost ? 'bg-blue-100 rounded-lg' : ''}`}>
+        <CardContent
+          className={`p-6 dark:text-white ${
+            post?.jobPost ? "bg-blue-100 rounded-lg" : ""
+          }`}
+        >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-3 cursor-pointer">
               <Avatar>
                 {post?.user?.profilePicture ? (
                   <AvatarImage
                     src={post?.user?.profilePicture}
-                    alt={post?.user?.username} />
+                    alt={post?.user?.username}
+                  />
                 ) : (
                   <AvatarFallback className="dark:bg-gray-400">
                     {/* {post?.user.username[0]} Default to the first letter of the username if no profile image */}
                     {userPostplaceholder}
                   </AvatarFallback>
                 )}
-
-
               </Avatar>
+
               <div>
-                <p className={`font-semibold dark:text-white ${post?.jobPost ? 'dark:text-gray-700' : ''}`}>{post?.user.username}</p> {/* Access username from user object */}
+                <p
+                  className={`font-semibold dark:text-white ${
+                    post?.jobPost ? "dark:text-gray-700" : ""
+                  }`}
+                >
+                  {post?.user.username}
+                </p>{" "}
+                {/* Access username from user object */}
                 <p className="font-sm text-gray-500">
-                  {format(parseISO(post?.createdAt), 'MM/dd/yyyy')}
-                </p> {/* Format timestamp */}
+                  {format(parseISO(post?.createdAt), "MM/dd/yyyy")}
+                </p>{" "}
+                {/* Format timestamp */}
               </div>
             </div>
-            <Button variant="ghost" className="dark:hover:bg-gray-500"
-              onClick={toggleMenu}>
+            <Button
+              variant="ghost"
+              className="dark:hover:bg-gray-500"
+              onClick={toggleMenu}
+            >
               <MoreHorizontal className="dark:text-white h-4 w-4" />
             </Button>
             {isMenuOpen && (
               <div className="absolute right-60 mt-2 bg-white text-black dark:bg-white dark:text-black rounded-lg shadow-lg w-40 p-2 z-10">
-                <Button
-                  className="w-full text-left px-4 py-2 text-sm dark:text-black hover:bg-gray-200 dark:hover:bg-gray-700"
-                >
+                <Button className="w-full text-left px-4 py-2 text-sm dark:text-black hover:bg-gray-200 dark:hover:bg-gray-700">
                   Save Post
                 </Button>
-                <Button
-                  className="w-full text-left px-4 py-2 text-sm dark:text-black hover:bg-gray-200 dark:hover:bg-gray-700"
-                >
+                <Button className="w-full text-left px-4 py-2 text-sm dark:text-black hover:bg-gray-200 dark:hover:bg-gray-700">
                   Hide Post
                 </Button>
-                <Button
-                  className="w-full text-left px-4 py-2 text-sm dark:text-black hover:bg-gray-200 dark:hover:bg-gray-700"
-                >
+                <Button className="w-full text-left px-4 py-2 text-sm dark:text-black hover:bg-gray-200 dark:hover:bg-gray-700">
                   Report
                 </Button>
               </div>
             )}
-
           </div>
 
-          <p className={`mb-4 ${post?.jobPost ? 'text-blue-500 font-semibold' : ''}`}>{post?.content}</p>
+          <p
+            className={`mb-4 ${
+              post?.jobPost ? "text-blue-500 font-semibold" : ""
+            }`}
+          >
+            {post?.content}
+          </p>
 
           {post?.mediaUrl && post?.mediaType === "image" && (
             <img
@@ -155,7 +172,7 @@ const PostCard = ({ post, isLiked, onShare, onComment, onLike }) => {
               </span>
 
               <span className="text-sm text-gray-500 dark:text-gray-400 hover:border-b-2 border-gray-400 cursor-pointer">
-                {post?.shareCount} shares
+                {post?.shareCount} share
               </span>
             </div>
           </div>
@@ -164,25 +181,45 @@ const PostCard = ({ post, isLiked, onShare, onComment, onLike }) => {
           <div className="flex justify-between mb-2">
             <Button
               variant="ghost"
-              className={`flex-1 dark:hover:bg-gray-700  ${post?.jobPost ? 'dark:text-gray-800 dark:hover:bg-white' : ''}`}
-
+              className={`flex-1 dark:hover:bg-gray-700  ${
+                isLiked ? "text-blue-600" : ""
+              } ${
+                post?.jobPost ? "dark:text-gray-800 dark:hover:bg-white" : ""
+              }`}
+              onClick={onLike}
             >
               <ThumbsUp className="mr-2 h-4 w-4" /> Like
             </Button>
+
             <Button
               variant="ghost"
-              className={`flex-1 dark:hover:bg-gray-700 ${post?.jobPost ? 'dark:text-gray-800 dark:hover:bg-white' : ''}`}
+              className={`flex-1 dark:hover:bg-gray-700 ${
+                post?.jobPost ? "dark:text-gray-800 dark:hover:bg-white" : ""
+              }`}
+              onClick={handleCommentClick}
             >
               <MessageCircle className="mr-2 h-4 w-4" /> Comment
             </Button>
+
             <Dialog
               open={isShareDialogOpen}
               onOpenChange={setIsShareDialogOpen}
             >
               <DialogTrigger asChild>
-                <span className="flex-1 cursor-pointer dark:hover:bg-gray-700">
-                  <Share2 className="mr-2 h-4 w-4" /> Shares
-                </span>
+                {/* <span className={`flex-1 cursor-pointer dark:hover:bg-gray-700 ${post?.jobPost ? 'dark:text-gray-800 dark:hover:bg-white' : ''}`}>
+                  <Share2 className="mr-2 h-4 w-4 " /> Share
+                </span> */}
+                <Button
+                  variant="ghost"
+                  className={`flex-1 flex items-center justify-center gap-2 dark:hover:bg-gray-700 ${
+                    post?.jobPost
+                      ? "dark:text-gray-800 dark:hover:bg-white"
+                      : ""
+                  }`}
+                >
+                  <Share2 className="h-4 w-4" />
+                  Share
+                </Button>
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
@@ -217,7 +254,8 @@ const PostCard = ({ post, isLiked, onShare, onComment, onLike }) => {
               >
                 <PostComments
                   post={post}
-
+                  onComment={onComment}
+                  commentInputRef={commentInputRef}
                 />
               </motion.div>
             )}
