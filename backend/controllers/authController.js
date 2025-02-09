@@ -137,7 +137,7 @@ const loginUser = async(req,res) => {
 }
 const logout = (req,res) => {
     try{
-        res.cookie("auth token", " ",{
+        res.cookie("auth_token", " ",{
             httpOnly: true,
             expires: new Date(0)
         })

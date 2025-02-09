@@ -1,3 +1,5 @@
+
+
 import {
     createPost,
     getAllPosts,
@@ -7,7 +9,7 @@ import {
     sharePost,
     createStory,
     commentsPost
-  } from "../service/post.service";
+  } from "@/service/post.service";
   import toast from "react-hot-toast";
   import { create } from "zustand";
   
@@ -124,3 +126,4 @@ import {
       }
     },
   }));
+  
