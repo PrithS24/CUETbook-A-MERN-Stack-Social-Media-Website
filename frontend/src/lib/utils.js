@@ -7,20 +7,9 @@ import parseISO from "date-fns/parseISO";
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
-// export const formateDate=(date)=>{
-//   return formatDistanceToNow(parseISO(date),{addSuffix:true})
-// }
-
-export const formateDate = (date) => {
+// lib/utils.js
+export function formatDateInDDMMYYY(date) {
   if (!date) return "Invalid date";
-  try {
-    return formatDistanceToNow(parseISO(date), { addSuffix: true });
-  } catch (error) {
-    console.error("Error formatting date:", error);
-    return "Invalid date";
-  }
-};
-
-export const  formateDateInDDMMYYY = (date) =>{
-  return new Date(date).toLocaleDateString('en-GB')
+  const d = new Date(date);
+  return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
 }

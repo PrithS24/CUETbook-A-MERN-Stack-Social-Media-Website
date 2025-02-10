@@ -50,7 +50,7 @@ const LeftSideBar = ({ handleNavigation }) => {
                     >
                         <Video className="mr-4" /> Video
                     </Button>
-                    <Button variant="ghost" className="w-full justify-start" onClick={() => router.push("/user-profile")}>
+                    <Button variant="ghost" className="w-full justify-start"  onClick={() => handleNavigation(`/user-profile/${user?._id}`)}>
                         <User className="mr-4" /> Profile
                         
                     </Button>

@@ -1,5 +1,3 @@
-
-
 import {
     createPost,
     getAllPosts,
@@ -126,4 +124,3 @@ import {
       }
     },
   }));
-  
