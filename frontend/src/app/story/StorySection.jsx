@@ -1,26 +1,32 @@
-// // import React from 'react'
-// import React, { useState, useRef, useEffect } from "react";
 import React, { useEffect, useRef, useState } from "react";
 import StoryCard from "./StoryCard";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-// import { usePostStore } from "@/store/usePostStore";
+import { usePostStore } from "../store/usePostStore";
 import { Button } from "@/components/ui/button";
+
+
 const StorySection = () => {
-  const [scrollPosition, setScrollPosition] = useState(false);
+  const [scrollPosition, setScrollPosition] = useState(0);
   const [maxScroll, setMaxScroll] = useState(0);
   const containerRef = useRef();
+  const {story,fetchStoryPost} = usePostStore()
 
-  const storyPosts = [
-    {
-      _id: 1,
-      mediaUrl: "https://www.google.com/",
-      mediaType: "video",
-      user: {
-        username: "Tazin",
-      },
-    },
-  ];
+
+  useEffect(() => {
+    fetchStoryPost()
+  },[fetchStoryPost])
+
+  // const storyPosts = [
+  //   {
+  //     _id: 1,
+  //     mediaUrl: "https://www.google.com/",
+  //     mediaType: "video",
+  //     user: {
+  //       username: "Tazin",
+  //     },
+  //   },
+  // ];
 
   useEffect(() => {
     const container = containerRef.current;
@@ -33,7 +39,9 @@ const StorySection = () => {
       window.addEventListener("resize", updateMaxScroll);
       return () => window.removeEventListener("resize", updateMaxScroll);
     }
-  }, [storyPosts]);
+  }, [story]);
+  
+  // [storyPosts]);
 
   const scroll = (direction) => {
     const container = containerRef.current;
@@ -64,12 +72,14 @@ const StorySection = () => {
           dragConstraint={{
             right: 0,
             left:
-              -((storyPosts.length + 1) * 200) +
+              // -((storyPosts.length + 1) * 200) +
+              -((story.length + 1) * 200) +
               containerRef.current?.offsetWidth,
           }}
         >
           <StoryCard isAddStory={true} />
-          {storyPosts?.map((story) => (
+          {/* {storyPosts?.map((story) => ( */}
+          {story?.map((story) => (
             <StoryCard story={story} key={story._id} />
           ))}
         </motion.div>
