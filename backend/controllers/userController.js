@@ -148,7 +148,7 @@ const getAllFriendsRequest = async(req,res)=>{
 }
 
 //get all friend request for user
-const getAllUserForRequest = async(req,res)=>{
+const getAllUserForFriendsRequest = async(req,res)=>{
     try {
         const loggedInUserId = req.user.userId;
 
@@ -173,32 +173,31 @@ const getAllUserForRequest = async(req,res)=>{
 }
 
 //api for mutual friends
-const getAllMutualFriends = async (req, res) => {
+const getAllMutualFriends= async(req,res)=>{
     try {
-        const ProfileUserId = req.params.userId;
+        const loggedInUserId = req.user.userId;
 
-        //find the logged in user and retrive their followers and following
-        const loggedInUser = await User.findById(ProfileUserId)
+        //find the logged in user and retrieve their followers and following
+        const loggedInUser = await User.findById(loggedInUserId)
         .select('followers following')
         .populate('followers', 'username profilePicture email followerCount followingCount department userType studentID')
         .populate('following', 'username profilePicture email followerCount followingCount department userType studentID')
         if(!loggedInUser){
-           return response(res, 404, 'User not found')
+           return response(res,404, 'User not found') 
         }
-
+        
         //create a set of user id that logged in user is following
         const followingUserId = new Set(loggedInUser.following.map(user => user._id.toString()))
 
-        //filter followers to get only those who are also following you and followed by loggin user 
-        const mutualFriends = loggedInUser.followers.filter(follower => 
+        //filter followers to get only those who are also following u and followed by logged in user
+        const mutualFriends = loggedInUser.followers.filter(follower=>
             followingUserId.has(follower._id.toString())
         )
 
-        return response(res,200, 'Mutual friends get successfully', mutualFriends)
-
-   } catch (error) {
-       return response(res, 500, 'Internal server error', error.message)
-   }
+        return response(res,200,'Mutual friends got successfully',mutualFriends)
+    } catch (error) {
+        return response(res, 500, "Internal server error", error.message);
+    }
 }
 
 //get all users so that you can search for profile
@@ -250,44 +249,50 @@ const getAllUser = async (req, res) => {
         let filter = {}; // Initialize an empty filter
 
         if (search) {
-            const searchTerms = search.toLowerCase().split(" "); // Split the search query into individual terms
-            
-            let andConditions = []; // Array to hold AND conditions
+            const searchTerms = search.toLowerCase().split(" ");  // Split the search query into individual terms
+
+            let orConditions = [];
 
             searchTerms.forEach(term => {
-                // Match term in string fields using regex (name, email, username, department, userType)
-                andConditions.push({
-                    $or: [
-                        { department: { $regex: new RegExp(term, "i") } }, // Match department (e.g., "CSE")
-                        { userType: { $regex: new RegExp(term, "i") } },   // Match userType (e.g., "alumni")
-                        { name: { $regex: new RegExp(term, "i") } },        // Match name (e.g., "Pritha", "Saha")
-                        { email: { $regex: new RegExp(term, "i") } },       // Match email
-                    ]
+                
+                // Match in string fields (name, email, username, department, userType)
+                orConditions.push({ 
+                    name: { $regex: new RegExp(term, "i") }  // Match name (e.g., "Pritha", "Saha")
                 });
 
-                // Exact match for studentID (as a string)
-                andConditions.push({
-                    studentID: { $regex: new RegExp(`^${term}$`, "i") } // Exact match (case-insensitive)
+                orConditions.push({ 
+                    username: { $regex: new RegExp(term, "i") }  // Match username (if applicable)
                 });
 
-                // Match batch (if term is a number, perform exact match for batch)
+                orConditions.push({ 
+                    email: { $regex: new RegExp(term, "i") }  // Match email
+                });
+
+                orConditions.push({ 
+                    studentID: { $regex: new RegExp(term, "i") }  // Match studentID (e.g., "1504013")
+                });
+
+                orConditions.push({ 
+                    department: { $regex: new RegExp(term, "i") }  // Match department (e.g., "CSE")
+                });
+
+                orConditions.push({ 
+                    userType: { $regex: new RegExp(term, "i") }  // Match userType (e.g., "alumni")
+                });
+
+                // Apply exact match for batch if the term is a number (do not use regex for batch)
                 if (!isNaN(term)) {
-                    andConditions.push({
-                        batch: term  // Exact match for batch (if term is numeric)
+                    orConditions.push({ 
+                        batch: term  // Exact match for batch
                     });
                 }
             });
 
-            // Apply the AND condition if there are multiple search terms
-            filter.$and = andConditions;
+            filter.$or = orConditions;  // Set $or condition with all the individual term matches
         }
 
-        // Query users with the dynamic filter
+        // Execute the query with dynamic filter
         const users = await User.find(filter).select('name email studentID department userType batch');
-
-        if (users.length === 0) {
-            return response(res, 200, "No users found", []);
-        }
 
         return response(res, 200, "Got users successfully", users);
     } catch (error) {
@@ -331,7 +336,7 @@ module.exports = {
     unfollowuser,
     deleteUserFromRequest,
     getAllFriendsRequest,
-    getAllUserForRequest,
+    getAllUserForFriendsRequest,
     getAllMutualFriends,
     getAllUser,
     checkUserAuth,
