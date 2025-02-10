@@ -201,40 +201,100 @@ const getAllMutualFriends= async(req,res)=>{
 }
 
 //get all users so that you can search for profile
+// const getAllUser = async (req, res) => {
+//     try {
+//         const { search } = req.query;  // Get the search parameter from the query string
+//         let filter = {};  // Initialize an empty filter
+
+//         if (search) {
+//             const searchTerms = search.toLowerCase().split(" ");  // Split the search query into individual words
+
+//             let orConditions = [];  // Initialize an array to store search conditions
+
+//             // Loop through each search term and add it to the filter
+//             searchTerms.forEach(term => {
+//                 // Match 'username', 'department', or 'studentID' using regex, case-insensitive
+//                 orConditions.push({ username: { $regex: new RegExp(term, "i") } });
+//                 orConditions.push({ department: { $regex: new RegExp(term, "i") } });
+//                 orConditions.push({ studentID: { $regex: new RegExp(term, "i") } });
+
+//                 // Match the 'userType' for 'alumni' or 'student'
+//                 if (["alumni", "student"].includes(term)) {
+//                     orConditions.push({ userType: term });
+//                 }
+
+//                 // If the term is a number, assume it's a 'batch' year and add to conditions
+//                 if (!isNaN(term)) {
+//                     orConditions.push({ batch: term });
+//                 }
+//             });
+
+//             filter.$or = orConditions;  // Set the filter to use the OR conditions
+//         }
+
+//         // Query the database using the filter
+//         const users = await User.find(filter).select('username profilePicture email followerCount followingCount department userType studentID batch');
+
+//         // Respond with the result
+//         return response(res, 200, "Got users successfully", users);
+//     } catch (error) {
+//         // Handle any errors that occur
+//         return response(res, 500, "Internal server error", error.message);
+//     }
+// };
+
 const getAllUser = async (req, res) => {
     try {
         const { search } = req.query;
-        let filter = {};
+        let filter = {}; // Initialize an empty filter
 
         if (search) {
-            const searchTerms = search.toLowerCase().split(" "); // Split query into words
-
-            let orConditions = [];
+            const searchTerms = search.toLowerCase().split(" "); // Split the search query into individual terms
+            
+            let andConditions = []; // Array to hold AND conditions
 
             searchTerms.forEach(term => {
-                orConditions.push({ username: { $regex: new RegExp(term, "i") } }); // Search username
-                orConditions.push({ department: { $regex: new RegExp(term, "i") } }); // Search department
-                orConditions.push({ studentId: { $regex: new RegExp(term, "i") } }); // Search student ID
-                
-                if (["alumni", "student"].includes(term)) {
-                    orConditions.push({ status: term }); // Match exact status
-                }
+                // Match term in string fields using regex (name, email, username, department, userType)
+                andConditions.push({
+                    $or: [
+                        { department: { $regex: new RegExp(term, "i") } }, // Match department (e.g., "CSE")
+                        { userType: { $regex: new RegExp(term, "i") } },   // Match userType (e.g., "alumni")
+                        { name: { $regex: new RegExp(term, "i") } },        // Match name (e.g., "Pritha", "Saha")
+                        { email: { $regex: new RegExp(term, "i") } },       // Match email
+                    ]
+                });
 
-                if (!isNaN(term)) { // If it's a number, assume it's a batch year
-                    orConditions.push({ batch: term });
+                // Exact match for studentID (as a string)
+                andConditions.push({
+                    studentID: { $regex: new RegExp(`^${term}$`, "i") } // Exact match (case-insensitive)
+                });
+
+                // Match batch (if term is a number, perform exact match for batch)
+                if (!isNaN(term)) {
+                    andConditions.push({
+                        batch: term  // Exact match for batch (if term is numeric)
+                    });
                 }
             });
 
-            filter.$or = orConditions;
+            // Apply the AND condition if there are multiple search terms
+            filter.$and = andConditions;
         }
 
-        const users = await User.find(filter).select('username profilePicture email followerCount followingCount department userType studentID');
+        // Query users with the dynamic filter
+        const users = await User.find(filter).select('name email studentID department userType batch');
+
+        if (users.length === 0) {
+            return response(res, 200, "No users found", []);
+        }
 
         return response(res, 200, "Got users successfully", users);
     } catch (error) {
+        console.error(error);
         return response(res, 500, "Internal server error", error.message);
     }
 };
+
 
 //check if user is authenticated or not
 const checkUserAuth = async(req,res)=>{

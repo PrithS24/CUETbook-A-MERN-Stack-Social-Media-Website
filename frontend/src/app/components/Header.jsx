@@ -48,11 +48,10 @@ const Header = () => {
   const router = useRouter();
   const { user, clearUser } = userStore();
   
-
   const userPlaceholder = user?.username
-    ?.split(" ")
-    .map((name) => name[0])
-    .join("");
+  ? user.username.split(" ").map((name) => name[0]).join("")
+  : "";
+
 
   console.log(user);
 
@@ -81,14 +80,18 @@ const Header = () => {
     const fetchUsers = async () => {
       try {
         setLoading(true);
-        const result = await getAllUsers(); // Assume `getAllUsers` fetches users
+        const result = await getAllUsers();
+        if (!result || !Array.isArray(result)) {
+          throw new Error("Invalid user data");
+        }
         setUserList(result);
       } catch (error) {
-        console.error(error);
+        console.error("Error fetching users:", error);
       } finally {
         setLoading(false);
       }
     };
+    
     fetchUsers();
   }, []); // Correct order: Only fetch once on mount
 
@@ -97,7 +100,12 @@ const Header = () => {
       if (searchQuery.trim()) {
         setLoading(true);
         try {
-          const result = await getAllUsers(searchQuery); // Fetch filtered users from API
+          const result = await getAllUsers(searchQuery);
+          if (!result || !Array.isArray(result)) {
+            setFilterUsers([]);
+            setIsSearchOpen(false);
+            return;
+          }
           setFilterUsers(result);
           setIsSearchOpen(result.length > 0);
         } catch (error) {
@@ -110,6 +118,7 @@ const Header = () => {
         setIsSearchOpen(false);
       }
     };
+    
   
     fetchFilteredUsers();
   }, [searchQuery]);
