@@ -1,13 +1,18 @@
 import axios from "axios";
 
 const ApiUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
-console.log("API URL", ApiUrl)
-const baseUrl = ApiUrl && ApiUrl.trim() ? ApiUrl.trim() : 'http://localhost:8080';
-const axiosInstance = axios.create({
-    baseURL: baseUrl,
-    withCredentials: true
-})
 
-console.log("Axios Base URL after creation:", axiosInstance.defaults.baseURL);
+if (!ApiUrl) {
+    console.error('API URL is not defined!');
+} else {
+    console.log('API URL:', ApiUrl);
+}
+
+// Only call trim if ApiUrl is not undefined
+const axiosInstance = axios.create({
+    baseURL: ApiUrl ? ApiUrl.trim() : '', // Fallback to empty string if undefined
+    withCredentials: true
+});
+
 
 export default axiosInstance;

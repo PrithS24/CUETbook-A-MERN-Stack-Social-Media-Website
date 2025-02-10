@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import PostsContent from "./profileContent/PostsContent";
+import PostsContent from "./profileContent/PostContent";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Briefcase,
