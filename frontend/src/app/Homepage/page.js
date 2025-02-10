@@ -52,8 +52,8 @@ const HomePage = () => {
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <main className="flex flex-1 pt-16">
         <LeftSideBar />
-        <div className="flex-1 px-4 py-6 md:ml-64 lg:mr-64 lg:max-w-2xl xl:max-w-3xl mx-auto">
-          <div className="lg:ml-2 xl:ml-28">
+        <div className="flex-1 px-4 py-6 md:ml-64 lg:mr-64 lg:max-w-3xl xl:max-w-4xl mx-auto ">
+          <div className="lg:ml-2 xl:ml-28 ">
             <StorySection />
             <NewPostForm
             

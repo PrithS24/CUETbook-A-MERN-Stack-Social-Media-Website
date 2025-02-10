@@ -23,8 +23,7 @@ router.post('/follow',authMiddleware,followuser)
 router.post('/unfollow',authMiddleware,unfollowuser)
 
 //remove user from request
-router.post('/friend-request/remove',authMiddleware,deleteUserFromRequest)
-
+router.post('/remove/friend-request',authMiddleware,userController.deleteUserFromRequest);
 
 //get all friends request
 router.get('/friend-request',authMiddleware,getAllFriendsRequest )
