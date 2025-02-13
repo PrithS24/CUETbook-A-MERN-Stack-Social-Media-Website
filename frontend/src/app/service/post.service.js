@@ -1,4 +1,4 @@
-import axiosInstance from "./url.service"
+import axiosInstance from "../service/url.service"
 
 
 //create method for posts

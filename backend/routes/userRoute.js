@@ -1,7 +1,8 @@
 const express = require('express');
 const authMiddleware = require('../middleware/authMiddleware');
 const userController = require('../controllers/userController'); // Import as an object
-const { createOrUpdateUserBio } = require('../controllers/createOrUpdateController');
+const { createOrUpdateUserBio,updateCoverPhoto,updateUserProfile } = require('../controllers/createOrUpdateController');
+const { multerMiddleware } = require('../config/cloudinary');
 
 const router = express.Router();
 
@@ -24,10 +25,17 @@ router.get('/mutual-friends',authMiddleware,userController.getAllMutualFriends)
 //get all users from search
 router.get('/',authMiddleware,userController.getAllUser)
 
-router.get('/user-profile/:userId',authMiddleware,userController.getUserProfile)
+router.get('/profile/:userId',authMiddleware,userController.getUserProfile)
 
 router.get('/check-auth',authMiddleware,userController.checkUserAuth)
 
 // create or update user Bio
 router.put('/bio/:userId', authMiddleware, createOrUpdateUserBio)
+
+router.put('/profile/:userId',authMiddleware, multerMiddleware.single('profilePicture'),updateUserProfile)
+
+
+// update user cover
+router.put('/profile/cover-photo/:userId',authMiddleware,multerMiddleware.single('coverPhoto') ,updateCoverPhoto)
+
 module.exports = router;

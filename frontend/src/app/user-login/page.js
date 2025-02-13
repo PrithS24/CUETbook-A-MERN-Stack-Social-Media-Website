@@ -36,7 +36,7 @@ import {
 
 const page = () => {
   const router = useRouter();
-  const [isLoading,setIsLoading]= useState(true)
+  const [isLoading, setIsLoading] = useState(true)
 
   // Validation schema for Sign-Up
   const registerSchema = yup.object().shape({
@@ -95,44 +95,43 @@ const page = () => {
     resolver: yupResolver(registerSchema),
   });
 
-  const onSubmitRegister = async(data) =>{
+  const onSubmitRegister = async (data) => {
     try {
-       const result = await registerUser(data)
-        if(result.status === 'success'){
-          router.push('/')
-        }
-        toast.success('User register successfully')
+      const result = await registerUser(data)
+      if (result.status === 'success') {
+        router.push('/')
+      }
+      toast.success('User register successfully')
     } catch (error) {
       console.error(error);
       toast.error('email already exist')
-    }finally{
+    } finally {
       setIsLoading(false);
     }
   }
   //reset the form
-  useEffect(() =>{
+  useEffect(() => {
     resetLoginForm();
     resetSignUpForm()
- },[resetLoginForm,resetSignUpForm])
+  }, [resetLoginForm, resetSignUpForm])
 
 
- const onSubmitLogin = async(data) =>{
-   try {
+  const onSubmitLogin = async (data) => {
+    try {
       const result = await loginUser(data)
-       if(result.status === 'success'){
-         router.push('/')
-       }
-       toast.success('User login successfully')
-   } catch (error) {
-     console.error(error);
-     toast.error('invalid email or password')
-   }finally{
-     setIsLoading(false);
-   }
- }
+      if (result.status === 'success') {
+        router.push('/')
+      }
+      toast.success('User login successfully')
+    } catch (error) {
+      console.error(error);
+      toast.error('invalid email or password')
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   const [isAlumni, setIsAlumni] = useState(false);
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 to-green-900 flex items-center justify-center p-2 ">
       <motion.div
@@ -220,7 +219,6 @@ const page = () => {
                           </p>
                         )}
                       </div>
-
                       <div className="space-y-2">
                         <Label htmlFor="signupGender">Gender</Label>
                         <select
@@ -296,18 +294,18 @@ const page = () => {
                       </div>
                     </div>
                   </div>
-
                   <div className="space-y-4 mt-6">
                     <Label>Status</Label>
                     <RadioGroup
                       className="flex justify-between"
                       {...registerSignUp("userType")}
-                        onValueChange={
-                        (value) => 
-                        {setValue("userType", value === "alumni"? "alumni": "student");
-                        setIsAlumni(value === "alumni");}
+                      onValueChange={
+                        (value) => {
+                          setValue("userType", value === "alumni" ? "alumni" : "student");
+                          setIsAlumni(value === "alumni");
+                        }
                       }
-                      
+
                     >
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="current" id="current" />
@@ -324,7 +322,7 @@ const page = () => {
                       </p>
                     )}
                   </div>
-                  
+
 
                   {isAlumni && (
                     <Dialog open={isAlumni} onOpenChange={setIsAlumni}>
@@ -368,7 +366,7 @@ const page = () => {
                         </div>
                         <div className="mt-4 flex justify-end">
                           <Button type="submit" >
-                          {/* onClick={handleSubmit(onSubmit)} */}
+                            {/* onClick={handleSubmit(onSubmit)} */}
                             Submit
                           </Button>
                         </div>

@@ -21,6 +21,9 @@ export const formateDate = (date) => {
   }
 };
 
-export const  formateDateInDDMMYYY = (date) =>{
-  return new Date(date).toLocaleDateString('en-GB')
+
+export function formatDateInDDMMYYY(date) {
+  if (!date) return "Invalid date";
+  const d = new Date(date);
+  return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
 }

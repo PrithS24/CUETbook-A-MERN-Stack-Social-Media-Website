@@ -37,26 +37,27 @@ import Loader from "@/lib/Loader";
 import { getAllUsers } from "../service/user.service";
 const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [searchQuery,setSearchQuery] = useState("");
-  const [userList,setUserList] = useState([])
-  const [filterUsers,setFilterUsers] = useState([])
-  const [loading,setLoading] = useState(false);
-  const [activeTab,setActiveTab] = useState("home");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [userList, setUserList] = useState([])
+  const [filterUsers, setFilterUsers] = useState([])
+  const [loading, setLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState("home");
   const searchRef = useRef(null)
   const { theme, setTheme } = useTheme();
   const { toggleSidebar } = useSidebarStore();
   const router = useRouter();
   const { user, clearUser } = userStore();
-  
+
   const userPlaceholder = user?.username
-  ? user.username.split(" ").map((name) => name[0]).join("")
-  : "";
+    ? user.username.split(" ").map((name) => name[0]).join("")
+    : "";
 
 
   console.log(user);
 
   const handleNavigation = (path) => {
     router.push(path);
+    setActiveTab(item)
   };
   const handleLogout = async () => {
     try {
@@ -91,7 +92,7 @@ const Header = () => {
         setLoading(false);
       }
     };
-    
+
     fetchUsers();
   }, []); // Correct order: Only fetch once on mount
 
@@ -118,11 +119,38 @@ const Header = () => {
         setIsSearchOpen(false);
       }
     };
-    
-  
+
+
     fetchFilteredUsers();
   }, [searchQuery]);
-  
+
+  // useEffect(() =>{
+  //   const fetchUsers = async () => {
+  //      try {
+  //        setLoading(true);
+  //        const result = await getAllUsers()
+  //        setUserList(result);
+  //      } catch (error) {
+  //        console.log(error);
+  //      }finally{
+  //       setLoading(false);
+  //      }
+  //   }
+  //   fetchUsers();
+  // },[])
+
+  // useEffect(() =>{
+  //   if(searchQuery){
+  //     const filterUser = userList.filter(user => {
+  //      return  user.username.toLowerCase().includes(searchQuery.toLowerCase())
+  //     })
+  //     setFilterUsers(filterUser);
+  //     setIsSearchOpen(true)
+  //   }else{
+  //     setFilterUsers([])
+  //     setIsSearchOpen(false)
+  //   }
+  // },[searchQuery,userList])
 
 
   const handleSearchSubmit = (e) => {
@@ -142,12 +170,22 @@ const Header = () => {
       setLoading(false);
     }
   };
-
-  const handleSearchClose = (e) => {
-    if (!searchRef.current?.contains(e.target)) {
-      setIsSearchOpen(false);
-    }
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
   };
+
+
+  // const handleSearchClose = (e) => {
+  //   if (!searchRef.current?.contains(e.target)) {
+  //     setIsSearchOpen(false);
+  //   }
+  // };
+  const handleSearchClose = (e) => {
+    if (searchRef.current && !searchRef.current.contains(e.target)) {
+      setTimeout(() => setIsSearchOpen(false), 100); // Add delay to prevent instant closing
+    }
+};
+
 
   useEffect(() => {
     document.addEventListener("click", handleSearchClose);
@@ -170,18 +208,28 @@ const Header = () => {
             width={60}
             height={60}
             alt="cuetbook-logo"
+            onClick={() => handleNavigation("/")}
+            className="cursor-pointer"
           />
           <div className="relative" ref={searchRef}>
             <form onSubmit={handleSearchSubmit}>
               <div className="relative">
                 <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                <Input
+                {/* <Input
                   className="pl-8 w-40 md:w-64 h-10 bg-gray-100 dark:bg-[rgb(58,59,60)] rounded-full"
                   placeholder="Search"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onFocus={() => setIsSearchOpen(true)}
+                /> */}
+                <Input
+                  className="pl-8 w-40 md:w-64 h-10 bg-gray-100 dark:bg-[rgb(58,59,60)] rounded-full"
+                  placeholder="Search"
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                  onFocus={() => setIsSearchOpen(true)}
                 />
+
               </div>
               {isSearchOpen && (
                 <div className="absolute top-full left-0 w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg mt-1 z-50">
@@ -242,16 +290,16 @@ const Header = () => {
             onClick={toggleSidebar}>
             <Menu />
           </Button>
-          <Button variant="ghost" size="icon" className="hidden md:block text-gray-600 pl-2">
+          {/* <Button variant="ghost" size="icon" className="hidden md:block text-gray-600 pl-2">
             <Bell />
           </Button>
           <Button variant="ghost" size="icon" className="hidden md:block text-gray-600 pl-2">
             <MessageCircle />
-          </Button>
+          </Button> */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                 <Avatar className="h-8 w-8 mr-2">
+                <Avatar className="h-8 w-8 mr-2">
                   {user?.profilePicture ? (
                     <AvatarImage
                       src={user?.profilePicture}
@@ -293,10 +341,10 @@ const Header = () => {
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="cursor-pointer">
+              {/* <DropdownMenuItem className="cursor-pointer">
                 <MessageCircle className="mr-2" />
                 <span>Messages</span>
-              </DropdownMenuItem>
+              </DropdownMenuItem> */}
               <DropdownMenuItem className="cursor-pointer">
                 <Home className="mr-2" />
                 <span>Profile</span>
@@ -317,7 +365,7 @@ const Header = () => {
                   </>
                 )}
               </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer"  onClick={handleLogout}>
+              <DropdownMenuItem className="cursor-pointer" onClick={handleLogout}>
                 <LogOut className="mr-2" />
                 <span>Logout</span>
               </DropdownMenuItem>

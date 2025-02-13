@@ -7,7 +7,7 @@ import {
     sharePost,
     createStory,
     commentsPost
-  } from "@/service/post.service";
+  } from "@/app/service/post.service";
   import toast from "react-hot-toast";
   import { create } from "zustand";
   

@@ -296,20 +296,24 @@ const getAllUser = async (req, res) => {
 };
 
 
-//check if user is authenticated or not
-const checkUserAuth = async(req,res)=>{
+//check if user is authenticated or not 
+const checkUserAuth = async(req, res) =>{
     try {
-        const userId = req?.user?.userId
-        if(!userId) return response(res,404, 'Unauthenticated login')
+       const userId = req?.user?.userId;
+       if(!userId) return response(res,404, 'unauthenticated ! please login before access the data')
 
-        //fetch user details, leave out sensitive data
-        const user= await User.findById(userId).select('-password');
-        if(!user) return response(res,403, 'User not found',user)
-        return response(res,201,'User authenticated')
+       //fetch the user details and excude sensitive information
+       const user = await User.findById(userId).select('-password');
+
+       if(!user) return response(res,403, 'User not found')
+
+       return response(res,201, 'user retrived and allow to use facebook', user)
     } catch (error) {
-        return response(res, 500, "Internal server error", error.message);
+       return response(res, 500, 'Internal server error', error.message)
     }
 }
+
+module.exports= { checkUserAuth }
 const getUserProfile=async(req,res)=>{
     try {
         const {userId} = req.params;

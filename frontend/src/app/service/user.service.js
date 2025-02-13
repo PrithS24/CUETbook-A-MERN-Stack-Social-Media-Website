@@ -56,14 +56,27 @@ export const deleteUserFromRequest = async(userId)=>{
 }
 
 //to fetch user profile
+// export const fetchUserProfile = async(userId)=>{
+//     try {
+//         const response = await axiosInstance.post(`/users/profile/${userId}`)
+//         return response?.data?.data;
+//     } catch (error) {
+//         console.log(error)
+//         throw error;
+//     }
+// }
+
 export const fetchUserProfile = async(userId)=>{
     try {
-        const response = await axiosInstance.post(`/users/profile/${userId}`)
+        const token = localStorage.getItem("authToken");
+        const response = await axiosInstance.get(`/users/profile/${userId}`, {
+            headers: { Authorization: `Bearer ${token}` },
+        });
         return response?.data?.data;
     } catch (error) {
-        console.log(error)
-        throw error;
-    }
+        console.log(error);
+        throw error;
+    }
 }
 
 //to get mutual friends

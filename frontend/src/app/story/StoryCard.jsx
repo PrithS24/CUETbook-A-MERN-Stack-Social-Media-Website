@@ -120,7 +120,7 @@ const StoryCard = ({ isAddStory, story }) => {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="p-0 w-8 h-8 rounded-full bg-blue-500 hover:bg-blue-600 flex items-center justify-center"
+                  className="p-0 w-8 h-8 rounded-full bg-green-500 hover:bg-green-600 flex items-center justify-center"
                   onClick={() => fileInputRef.current.click()}
                 >
                   <Plus className="h-5 w-5 text-white" />
@@ -161,7 +161,7 @@ const StoryCard = ({ isAddStory, story }) => {
                 </Avatar>
               </div> */}
 
-              <div className="absolute top-2 left-2 rounded-full ring-2 ring-blue-500 flex items-center justify-center w-10 h-10 ">
+              <div className="absolute top-2 left-2 rounded-full ring-2 ring-green-600 flex items-center justify-center w-10 h-10 ">
                 {/* <Avatar className="w-full h-full">
                   <AvatarImage />
                   <p className="w-full h-full flex justify-center items-center text-4xl dark:text-white">
