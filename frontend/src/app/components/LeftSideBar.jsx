@@ -4,9 +4,9 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button';
 import { Home, MessageCircle, User, Users, Video, Bell, Briefcase}  from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
-import useSidebarStore from '../store/sidebarStore';
+import useSidebarStore from '../../store/sidebarStore';
 import { useRouter } from "next/navigation";
-import userStore from '../store/userStore';
+import userStore from '../../store/userStore';
 const LeftSideBar = () => {
     const {isSideBarOpen, toggleSideBar} = useSidebarStore();
     const router = useRouter()

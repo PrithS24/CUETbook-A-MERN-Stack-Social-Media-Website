@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { formateDate } from "@/lib/utils";
-import userStore from "../store/userStore";
+import userStore from "../../store/userStore";
 
 const PostComments = ({ post, onComment, commentInputRef }) => {
   const [showAllComments, setShowAllComments] = useState(false);

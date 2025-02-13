@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Plus } from "lucide-react";
 import React, { useRef, useState } from "react";
 import { usePostStore } from "../../store/usePostStore";
-import userStore from "../store/userStore";
+import userStore from "../../store/userStore";
 import ShowStoryPreview from "./ShowStoryPreview";
 
 const StoryCard = ({ isAddStory, story }) => {

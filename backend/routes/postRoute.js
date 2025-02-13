@@ -47,7 +47,7 @@ router.post(
 );
 
 //get all stories
-router.get("/story", authMiddleware, getAllStory);
+router.get("/users/story", authMiddleware, getAllStory);
 
 
 module.exports = router;

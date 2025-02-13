@@ -8,24 +8,24 @@ const router = express.Router();
 
 
 //user follow 
-router.post('/follow',authMiddleware,followuser)
+router.post('/follow',authMiddleware,userController.followuser)
 
 //user unfollow
-router.post('/unfollow',authMiddleware,unfollowuser)
+router.post('/unfollow',authMiddleware,userController.unfollowuser)
 
 //remove user from request
 router.post('/remove/friend-request',authMiddleware,userController.deleteUserFromRequest);
 
 //get all friends request
-router.get('/friend-request',authMiddleware,getAllFriendsRequest )
+router.get('/friend-request',authMiddleware,userController.getAllFriendsRequest )
 
 
 //get all friends for request
-router.get('/user-to-request',authMiddleware,getAllUserForRequest)
+router.get('/user-to-request',authMiddleware,userController.getAllUserForFriendsRequest )
 
 
 //get all mutual friends 
-router.get('/mutual-friends/:userId',authMiddleware,getAllMutualFriends)
+router.get('/mutual-friends/:userId',authMiddleware,userController.getAllMutualFriends)
 
 
 //get all users from search
@@ -35,7 +35,7 @@ router.get('/profile/:userId',authMiddleware,userController.getUserProfile)
 
 
 //get all users fror search 
-router.get('/check-auth',authMiddleware,checkUserAuth)
+router.get('/check-auth',authMiddleware,userController.checkUserAuth)
 
 
 

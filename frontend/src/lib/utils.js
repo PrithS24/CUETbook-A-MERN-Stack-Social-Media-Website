@@ -8,19 +8,17 @@ export function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
 // lib/utils.js
-export function formatDateInDDMMYYY(date) {
-  if (!date) return "Invalid date";
-  try {
-    return formatDistanceToNow(parseISO(date), { addSuffix: true });
-  } catch (error) {
-    console.error("Error formatting date:", error);
-    return "Invalid date";
-  }
-};
-
-
-export function formatDateInDDMMYYY(date) {
-  if (!date) return "Invalid date";
-  const d = new Date(date);
-  return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
+export const formateDate  =(date) =>{
+  return formatDistanceToNow(parseISO(date),{addSuffix:true})
 }
+
+
+export const  formatDateInDDMMYYY = (date) =>{
+  return new Date(date).toLocaleDateString('en-GB')
+}
+
+// export function formatDateInDDMMYYY(date) {
+//   if (!date) return "Invalid date";
+//   const d = new Date(date);
+//   return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
+// }
