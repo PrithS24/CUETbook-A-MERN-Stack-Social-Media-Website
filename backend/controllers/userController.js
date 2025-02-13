@@ -249,44 +249,50 @@ const getAllUser = async (req, res) => {
         let filter = {}; // Initialize an empty filter
 
         if (search) {
-            const searchTerms = search.toLowerCase().split(" "); // Split the search query into individual terms
-            
-            let andConditions = []; // Array to hold AND conditions
+            const searchTerms = search.toLowerCase().split(" ");  // Split the search query into individual terms
+
+            let orConditions = [];
 
             searchTerms.forEach(term => {
-                // Match term in string fields using regex (name, email, username, department, userType)
-                andConditions.push({
-                    $or: [
-                        { department: { $regex: new RegExp(term, "i") } }, // Match department (e.g., "CSE")
-                        { userType: { $regex: new RegExp(term, "i") } },   // Match userType (e.g., "alumni")
-                        { name: { $regex: new RegExp(term, "i") } },        // Match name (e.g., "Pritha", "Saha")
-                        { email: { $regex: new RegExp(term, "i") } },       // Match email
-                    ]
+                
+                // Match in string fields (name, email, username, department, userType)
+                orConditions.push({ 
+                    name: { $regex: new RegExp(term, "i") }  // Match name (e.g., "Pritha", "Saha")
                 });
 
-                // Exact match for studentID (as a string)
-                andConditions.push({
-                    studentID: { $regex: new RegExp(`^${term}$`, "i") } // Exact match (case-insensitive)
+                orConditions.push({ 
+                    username: { $regex: new RegExp(term, "i") }  // Match username (if applicable)
                 });
 
-                // Match batch (if term is a number, perform exact match for batch)
+                orConditions.push({ 
+                    email: { $regex: new RegExp(term, "i") }  // Match email
+                });
+
+                orConditions.push({ 
+                    studentID: { $regex: new RegExp(term, "i") }  // Match studentID (e.g., "1504013")
+                });
+
+                orConditions.push({ 
+                    department: { $regex: new RegExp(term, "i") }  // Match department (e.g., "CSE")
+                });
+
+                orConditions.push({ 
+                    userType: { $regex: new RegExp(term, "i") }  // Match userType (e.g., "alumni")
+                });
+
+                // Apply exact match for batch if the term is a number (do not use regex for batch)
                 if (!isNaN(term)) {
-                    andConditions.push({
-                        batch: term  // Exact match for batch (if term is numeric)
+                    orConditions.push({ 
+                        batch: term  // Exact match for batch
                     });
                 }
             });
 
-            // Apply the AND condition if there are multiple search terms
-            filter.$and = andConditions;
+            filter.$or = orConditions;  // Set $or condition with all the individual term matches
         }
 
-        // Query users with the dynamic filter
+        // Execute the query with dynamic filter
         const users = await User.find(filter).select('name email studentID department userType batch');
-
-        if (users.length === 0) {
-            return response(res, 200, "No users found", []);
-        }
 
         return response(res, 200, "Got users successfully", users);
     } catch (error) {

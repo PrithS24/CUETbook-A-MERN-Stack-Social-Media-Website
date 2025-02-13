@@ -15,7 +15,9 @@ import {
 } from "@/components/ui/dialog";
 import PostComments from "./PostComments";
 import { format, parseISO } from "date-fns";
-
+const handleUserProfile=()=>{
+  Router.push(`user-profile/${post?.user?._id}`)
+}
 const PostCard = ({ post, isLiked, onShare, onComment, onLike }) => {
   // const formattedDate = format(new Date(post.createdAt), 'MM/dd/yyyy');
   const [isShareDialogOpen, setIsShareDialogOpen] = useState(false);
@@ -82,7 +84,7 @@ const PostCard = ({ post, isLiked, onShare, onComment, onLike }) => {
           }`}
         >
           <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center space-x-3 cursor-pointer">
+            <div className="flex items-center space-x-3 cursor-pointer" onClick={handleUserProfile}>
               <Avatar>
                 {post?.user?.profilePicture ? (
                   <AvatarImage

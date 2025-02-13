@@ -6,7 +6,7 @@ import RightSideBar from "../components/RightSideBar";
 import StorySection from "@/app/story/StorySection";
 import NewPostForm from "../posts/NewPostForm";
 import PostCard from "../posts/PostCard";
-import { usePostStore } from "../store/usePostStore";
+import { usePostStore } from "../../store/usePostStore";
 import toast from "react-hot-toast";
 
 const HomePage = () => {

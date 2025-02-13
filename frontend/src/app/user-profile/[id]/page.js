@@ -3,7 +3,11 @@ import React, { useEffect, useState } from "react";
 import ProfileHeader from "../ProfileHeader";
 import ProfileTabs from "../ProfileTabs";
 import { useParams } from "next/navigation";
+<<<<<<< HEAD
 import { fetchUserProfile } from "../../service/user.service";
+=======
+import { fetchUserProfile } from "@/service/user.service";
+>>>>>>> b893d5bced9d061167a91f5a457d8a5c25fd947b
 
 const Page = () => {
   const params = useParams();

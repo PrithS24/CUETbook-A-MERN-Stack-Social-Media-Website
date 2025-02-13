@@ -11,14 +11,3 @@ const axiosInstance = axios.create({
 console.log("Axios Base URL after creation:", axiosInstance.defaults.baseURL);
 
 export default axiosInstance;
-
-// import axios from "axios";
-
-// const ApiUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
-
-// const axiosInstance = axios.create({
-//     baseURL: ApiUrl,
-//     withCredentials:true
-// })
-
-// export default axiosInstance;

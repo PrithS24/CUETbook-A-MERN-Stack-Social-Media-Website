@@ -26,15 +26,15 @@ import {
 import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
 import Image from "next/image";
-import useSidebarStore from "../store/sidebarStore";
+import useSidebarStore from "../../store/sidebarStore";
 import { useRouter } from "next/navigation";
-import userStore from "../store/userStore";
+import userStore from "../../store/userStore";
 import { toast } from "react-toastify";
-import { logout } from "../service/auth.service";
+import { logout } from "../../service/auth.service";
 
 
 import Loader from "@/lib/Loader";
-import { getAllUsers } from "../service/user.service";
+import { getAllUsers } from "../../service/user.service";
 const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");

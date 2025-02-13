@@ -19,7 +19,7 @@ import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { LogIn } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { loginUser, registerUser } from "@/app/service/auth.service"
+import { loginUser, registerUser } from "../../service/auth.service"
 import toast from "react-hot-toast";
 import {
   Select,

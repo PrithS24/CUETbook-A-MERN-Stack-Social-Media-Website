@@ -21,7 +21,7 @@ connectDb()
 
 //api routes
 app.use('/auth', authRouter)
-app.use('/users', postRouter)
+app.use('/posts', postRouter)
 app.use('/users', userRouter)
 
 const PORT = process.env.PORT || 8000

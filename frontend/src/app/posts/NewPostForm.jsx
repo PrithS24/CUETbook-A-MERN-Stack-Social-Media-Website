@@ -18,7 +18,7 @@ import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import { Checkbox } from "@/components/ui/checkbox";
 import userStore from "../store/userStore";
-import { usePostStore } from "../store/usePostStore";
+import { usePostStore } from "../../store/usePostStore";
 
 const Picker = dynamic(() => import("emoji-picker-react"), { ssr: false });
 

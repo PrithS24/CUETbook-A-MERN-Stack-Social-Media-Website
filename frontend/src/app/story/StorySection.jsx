@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import StoryCard from "./StoryCard";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { usePostStore } from "../store/usePostStore";
+import { usePostStore } from "../../store/usePostStore";
 import { Button } from "@/components/ui/button";
 
 

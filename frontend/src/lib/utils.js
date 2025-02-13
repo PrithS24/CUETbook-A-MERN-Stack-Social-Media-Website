@@ -7,11 +7,8 @@ import parseISO from "date-fns/parseISO";
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
-// export const formateDate=(date)=>{
-//   return formatDistanceToNow(parseISO(date),{addSuffix:true})
-// }
-
-export const formateDate = (date) => {
+// lib/utils.js
+export function formatDateInDDMMYYY(date) {
   if (!date) return "Invalid date";
   try {
     return formatDistanceToNow(parseISO(date), { addSuffix: true });
